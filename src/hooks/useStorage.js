@@ -10,14 +10,12 @@ const useStorage  = (file) => {
     
     useEffect(() => {
         // references
-        const metadata = {
-            contentType: 'image/jpeg'
-          };
+        // const metadata = {
+        //     contentType: 'image/jpeg'
+        //   };
         const storageRef = ref(projectStorage, file.name);
-        const uploadTask = uploadBytesResumable(storageRef, file, metadata);
+        const uploadTask = uploadBytesResumable(storageRef, file);
         
-        console.log(storageRef);
-
         uploadTask.on('state_changed', (snap) => {
             let progress = (snap.bytesTransferred / snap.totalBytes) * 100;
             setProgress(progress);
@@ -25,10 +23,8 @@ const useStorage  = (file) => {
         }, (err) => {
             setError(err);
         }, async () => {
-            
-            let url = getDownloadURL(uploadTask.snap.ref).then((downloadURL) => {
-                console.log(downloadURL);
-            });
+            const url = await getDownloadURL(storageRef);
+            console.log(url);
             setUrl(url);
         })
     }, [file]);
