@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { db } from '../firebase/config';
 import useFirestore from '../hooks/useFirestore';
 import { collection, doc, updateDoc } from "firebase/firestore";
@@ -7,7 +7,6 @@ import { collection, doc, updateDoc } from "firebase/firestore";
 const ImageCaption = ({url, caption, setCaption}) => {
     const { docs } = useFirestore('images');
    
-    const collectionRef = collection(db, 'images')
     let imageRef;
     let text;
     let date;
