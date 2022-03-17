@@ -29,7 +29,9 @@ const useStorage  = (file) => {
         }, async () => {
             const url = await getDownloadURL(storageRef);
             const createdAt = timestamp;
-            await addDoc(collectionRef, { url, createdAt });
+            const caption = "";
+            const dateOfImg= null;
+            await addDoc(collectionRef, { url, createdAt, caption, dateOfImg });
             setUrl(url);
         })
     }, [file]);

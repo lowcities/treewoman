@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ProgressBar from './ProgressBar';
-import ImageDesc from './imageDescription';
+
 
 const UploadForm = () => {
     const [file, setFile] = useState(null);
@@ -21,6 +21,7 @@ const UploadForm = () => {
         }
     }
 
+    console.log(file);
     return (
         <form>
             <label>

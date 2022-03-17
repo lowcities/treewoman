@@ -70,6 +70,16 @@ label:hover{
   margin-top: 20px;
 }
 
+/* image desc styles */
+.desc-form {
+  position: relative;
+  background-color: purple;
+  margin: 30px auto 10px;
+  text-align: center;
+  z-index: 1;
+}
+
+
 /* image grid styles */
 .img-grid{
   margin: 20px auto;
