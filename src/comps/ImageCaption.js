@@ -32,7 +32,7 @@ const ImageCaption = ({url, caption, setCaption}) => {
         <div className='desc-form'>
             <input value={text} onChange={(e) => {text = e.target.value}}></input>
             <span>Year Photo Was Taken</span>
-            <input type="date" value={date} onChange={(e) => {date = e.target.value }}></input>
+            <input type="number" min="1900" max="2099" step="1" value={date} onChange={(e) => {date = e.target.value }}></input>
             <button onClick={clickHandler}>Submit</button>
         </div>
     )
