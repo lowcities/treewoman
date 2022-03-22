@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Fleur+De+Leah&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Elsie+Swash+Caps&display=swap');
+@import url("https://www.flaticon.com/free-icons/tree");
 
 :root{
   --primary: #efb6b2;
@@ -10,11 +11,21 @@
 
 /* base styles & title */
 body{
+  background: rgba(172, 216, 235, 0.8);
   font-family: "Noto Serif";
   color: var(--secondary);
 }
 h1{
   margin: 0 0;
+}
+hr {
+  background-image: linear-gradient(to right, #80b6d5, #5cb5d8, #75bfda);
+  border: none;
+  height: 5px;
+  width: 90%;margin-left: auto;margin-right: auto;margin-bottom: 4rem;
+}
+hr::after {
+  background-image: url("https://www.flaticon.com/free-icons/tree");
 }
 .App{
   /* max-width: 960px; */
@@ -68,9 +79,6 @@ label input{
   width: 0;
   opacity: 0;
 }
-
-
-/* CSS */
 .upload-btn {
   background-color: transparent;
   border: 1px solid #266DB6;
@@ -117,13 +125,6 @@ label input{
   transition: 0.2s;
   
 }
-
-.upload-btn:hover {
-  
-}
-
-
-
 .output{
   height: 60px;
   font-size: 0.8rem;
@@ -141,14 +142,31 @@ label input{
 
 /* image desc styles */
 .desc-form {
+  box-sizing: border-box;
   position: relative;
-  background-color: purple;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(93, 169, 201, 1);
   margin: 30px auto 10px;
-  text-align: center;
+  padding: 2rem;
+  
+  width: 50%;
   z-index: 1;
 }
-
-
+.year-input {
+  align-self: center;
+  max-width: fit-content;
+  padding: 5px;
+  margin: 20px 0;
+}
+.desc-form button {
+  align-self: center;
+  width: 90px;
+}
+.desc-form span {
+  font-size: 1rem;
+  margin: 1rem auto;
+}
 /* image grid styles */
 .img-grid{
   margin: 20px auto;
@@ -198,7 +216,6 @@ label input{
   border: 3px solid white;
   
 }
-
 .year {
   order: 2;
   /* position: fixed; */
@@ -209,17 +226,6 @@ label input{
   /* left: 50%; */
 }
 .caption-btn {
-  background-color: bisque;
-  cursor: pointer;
-  padding: 1rem;
-  margin: 1rem;
-  position: fixed;
-  justify-content: left;
-  align-items: center;
-  top: 0;
-  left: 0;
-}
-.caption-btn {
   font-size: 16px;
   font-weight: 200;
   letter-spacing: 1px;
@@ -227,6 +233,7 @@ label input{
   outline: 0;
   border: 1px solid black;
   cursor: pointer;
+  margin: 1rem;
   position: fixed;
   justify-content: left;
   align-items: center;
@@ -257,7 +264,7 @@ label input{
 .caption-box {
   position: fixed;
   display: flex;
-  background-color: rgba(93, 169, 201, .8);
+  /* background-color: rgba(93, 169, 201, .8); */
   opacity: .2;
   justify-content: center;
   align-items: center;
@@ -275,8 +282,8 @@ label input{
   width: 100% ;
 }
 .blurred {
-  background-color: rgba(93, 169, 201, .8);
-  filter:blur(10px);
+  /* background-color: rgba(93, 169, 201, .8); */
+  backdrop-filter:blur(5px);
   position: absolute;
   top: 0;
   right: 0;
@@ -284,9 +291,13 @@ label input{
   bottom: 0;
   z-index: 99;
 }
-.another-div {
+.post-blur-cont {
   position: relative;
   z-index: 100;
+}
+.caption {
+  text-align: center;
+  font-size: 2rem;
 }
 /* Media Queries */
 @media (min-width: 568px) {

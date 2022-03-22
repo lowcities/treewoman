@@ -33,7 +33,7 @@ const Modal = ({ selectedImg, setSelectedImg, caption, year }) => {
                 >
                 <div className='caption-container'>
                     <div className='blurred'></div>
-                        <div className='another-div'>
+                        <div className='post-blur-cont'>
                             <p className='caption'>{caption}</p>
                         </div>
                     
