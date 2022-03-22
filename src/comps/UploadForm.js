@@ -24,9 +24,9 @@ const UploadForm = () => {
     console.log(file);
     return (
         <form>
-            <label>
+            <label className='upload-btn'>
                 <input type='file' onChange={changeHandler} />
-                <span>+</span>
+                <span>UPLOAD</span>
             </label>
            
             <div className='output'>
