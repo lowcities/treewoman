@@ -41,8 +41,8 @@ function App() {
     <div className="App">
       { authenticated === true ?  <span className="login-btn" onClick={logout}>Logout: {currentUser}</span> 
       : <span className="login-btn" onClick={(e) => clicked === false ? setClicked(true) : setClicked(false)}>Login/SignUp</span>}
-      { clicked && <Auth /> }
       <Title/>
+      { clicked && <Auth /> }
       <UploadForm />
       <ImageGrid setSelectedImg={setSelectedImg} setCaption={setCaption} setYear={setYear} />
       { selectedImg && <Modal selectedImg={selectedImg} setSelectedImg={setSelectedImg} caption={caption} year={year} />}
