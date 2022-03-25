@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword,
-    onAuthStateChanged,
-    signOut, } from 'firebase/auth';
+    onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase/config';
 
 const Auth = () => {
@@ -33,7 +32,7 @@ const Auth = () => {
 
     const login = async () => {
         try {
-            const user = await signInWithEmailAndPassword(auth, registerEmail, registerPassword);
+            const user = await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
             resetFields();
             console.log(user);
         } catch (error) {
@@ -41,9 +40,7 @@ const Auth = () => {
         }
     }
 
-    const logout = async () => {
-        await signOut(auth);
-      };
+   
     
 
     return (
@@ -64,7 +61,7 @@ const Auth = () => {
             <h4> User Logged In: </h4>
                 {user?.email}
 
-            <button onClick={logout}> Sign Out </button>
+            
         </div>
     );
 }

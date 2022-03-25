@@ -11,7 +11,7 @@
 
 /* base styles & title */
 body{
-  background: rgba(172, 216, 235, 0.8);
+  background: whitesmoke;
   font-family: "Noto Serif";
   color: var(--secondary);
 }
@@ -69,6 +69,7 @@ hr::after {
   margin: 0;
 }
 .login-btn {
+  background-color: rgba(172, 216, 235, 0.8);
   font-size: 16px;
   font-weight: 200;
   letter-spacing: 1px;
@@ -81,8 +82,7 @@ hr::after {
   justify-content: left;
   align-items: center;
   top: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0);
+  right: 0;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
@@ -95,7 +95,7 @@ hr::after {
   position: fixed;
   top: 25%;
   left: 25%;
-  background: #266DB6;
+  background: rgba(172, 216, 235, 0.8);
   z-index: 100;
 }
 
@@ -301,7 +301,7 @@ label input{
   top: 50%;
   left: 50%;
   /* min-height: 100vh; */
-  width: 70%;
+  /* width: 70%; */
   text-align: center;
   color: white;
   transform: translate(-50%, -50%);
