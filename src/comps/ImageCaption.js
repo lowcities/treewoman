@@ -1,7 +1,7 @@
 import React from 'react';
 import { db } from '../firebase/config';
 import useFirestore from '../hooks/useFirestore';
-import { collection, doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 
 
 const ImageCaption = ({url, caption, setCaption}) => {
@@ -11,12 +11,13 @@ const ImageCaption = ({url, caption, setCaption}) => {
     let text;
     let date;
     
+    
     docs.map(img => {
         if(img.url === url) {
             imageRef = doc(db, 'images', img.id);
             console.log(imageRef);
         }
-    })
+    });
     
     const clickHandler = (e) => {
         e.preventDefault();

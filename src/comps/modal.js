@@ -10,8 +10,6 @@ const Modal = ({ selectedImg, setSelectedImg, caption, year }) => {
             }
         }
 
-        
-
     return (
         
         <motion.div className='backdrop' onClick={handleClick} 

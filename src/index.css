@@ -68,6 +68,36 @@ hr::after {
   font-size: 2.6rem;
   margin: 0;
 }
+.login-btn {
+  font-size: 16px;
+  font-weight: 200;
+  letter-spacing: 1px;
+  padding: 13px 20px 13px;
+  outline: 0;
+  border: 1px solid black;
+  cursor: pointer;
+  margin: 1rem;
+  position: fixed;
+  justify-content: left;
+  align-items: center;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  z-index: 100;
+}
+.login-signup-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  top: 25%;
+  left: 25%;
+  background: #266DB6;
+  z-index: 100;
+}
 
 /* upload form styles */
 form{
