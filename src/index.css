@@ -106,6 +106,7 @@ hr::after {
 .login-html {
   background: rgba(172, 216, 235, 0.8);
   max-width: 80%;
+  min-height: 193px;
   margin-top: 4rem;
   padding: 2rem;
 }
@@ -178,6 +179,7 @@ hr::after {
 .login-form .group .label{
 	color:rgb(21, 19, 19);
 	font-size:12px;
+  font-weight: bold;
 }
 .login-form .group .button{
 	background:#1161ee;
@@ -228,7 +230,10 @@ hr::after {
 .login-html .sign-up:checked + .tab + .login-form .sign-up-htm{
 	transform:rotate(0);
 }
-
+.recaptcha {
+  height: auto;
+  width: 100%;
+}
 /* upload form styles */
 form{
   margin: 30px auto 10px;

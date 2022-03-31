@@ -4,10 +4,8 @@ import useFirestore from '../hooks/useFirestore';
 
 const ImageGrid = ({ setSelectedImg, setCaption, setYear }) => {
     const { docs } = useFirestore('images');
-    console.log(docs);
-    
-    
-    return (
+   
+     return (
         <div className="img-grid">
             { docs && docs.map(doc => (
                 <motion.div className="img-wrap" key={doc.id}

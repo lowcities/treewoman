@@ -21,7 +21,6 @@ const UploadForm = () => {
         }
     }
 
-    console.log(file);
     return (
         <form>
             <hr></hr>
