@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, 
-    onAuthStateChanged, RecaptchaVerifier, sendEmailVerification, PhoneAuthProvider, getMultiFactorResolver, PhoneMultiFactorAssertion, PhoneMultiFactorGenerator, signOut } from 'firebase/auth';
+    onAuthStateChanged, RecaptchaVerifier, multiFactor, reauthenticateWithCredential, sendEmailVerification, PhoneAuthProvider, getMultiFactorResolver, EmailAuthProvider, PhoneMultiFactorAssertion,  PhoneMultiFactorGenerator, sendPasswordResetEmail, signOut } from 'firebase/auth';
 import { auth } from '../firebase/config';
 import { async } from "@firebase/util";
 import PhoneAuth from "./PhoneAuth";
 
 const Auth = ({ clicked, setClicked }) => {
-    
-
     const [ registerEmail, setRegisterEmail ] = useState("");
     const [ registerPassword, setRegisterPassword ] = useState("");
     const [ confirmPassword, setConfirmPassword ] = useState("");
@@ -15,9 +13,11 @@ const Auth = ({ clicked, setClicked }) => {
     const [ loginPassword, setLoginPassword ] = useState("");
     const [ reqEmail, setReqEmail ] = useState(false);
     const [user, setUser] = useState({});
+    const [ MFAEnrolled, setMFAEnrolled ] = useState(true);
     const [ emailVerif, setEmailVerif ] = useState(true);
     const [ userPhone, setUserPhone ] = useState(null);
     const [ showOTP, setShowOTP ] = useState(false);
+    const [ otpField, setOtpField ] = useState(false);
     const [ OTP, setOTP ] = useState("");
     const [buttonDisabled, setButtonDisabled] = useState(true);
     const [time, setTime] = useState(60);
@@ -25,6 +25,7 @@ const Auth = ({ clicked, setClicked }) => {
     const [error, setError] = useState('');
     const [ validField, setValidField ] = useState(true);
     const [ verificationId, setVerificationId ] = useState('');
+    const [ showResetForm, setShowResetForm ] = useState(false);
 
     let fieldStyle;
     if(!validField) {
@@ -37,12 +38,27 @@ const Auth = ({ clicked, setClicked }) => {
         }
     }
 
-    const timeout = async ms => new Promise(res => setTimeout(res, ms));
+    onAuthStateChanged(auth, (user) => {
+        if(user) {
+          let MFUser = multiFactor(auth.currentUser);
+          console.log(MFUser);
+          if(MFUser.enrolledFactors.length !== 0) {
+            setMFAEnrolled(true);
+          } else {
+            setMFAEnrolled(false);
+          }
+        }
+       
+      });
 
     const generateRecaptcha = () => {
+        
         window.recaptchaVerifier = new RecaptchaVerifier('recap-cont', {
             'size': 'invisible',
-            'callback': (response) => {}
+            'callback': (response) => {
+                console.log("captcha solved!");
+            }
+           
         }, auth);
     }
 
@@ -82,7 +98,6 @@ const Auth = ({ clicked, setClicked }) => {
         } else {
             return isValid;
         }
-        
     };
 
     const validatePassword = () => {
@@ -98,8 +113,7 @@ const Auth = ({ clicked, setClicked }) => {
         }
       }
 
-    
-
+    //REGISTER A NEW USER/////////////////////////
     const register = async () => {
         if(validateEmailAddress()) {
             if(validatePassword()) {
@@ -122,12 +136,54 @@ const Auth = ({ clicked, setClicked }) => {
             }    
         }
     };
+//SET UP MULTIFACTOR ENROLLMENT FOR NEW USER BY SENDING SMS TO PHONE//////////////////////
+    const createMFA = () => {
+        setOtpField(true);
+        if(auth.currentUser.emailVerified) {
+            const provider = new PhoneAuthProvider(auth);
+            multiFactor(auth.currentUser).getSession()
+                .then((multiFactorSession) => {
+                    const phoneInfo = {
+                        phoneNumber: userPhone,
+                        session: multiFactorSession
+                    };
+                    generateRecaptcha();
+                    let verifier = window.recaptchaVerifier
+                    return provider.verifyPhoneNumber(phoneInfo, verifier);
+                }).then((verificationId) => {
+                    setVerificationId(verificationId);
+                    // setOtpField(false);
+                }, (error) => {
+                    console.log(error);
+                });
+        } else {
+            
+            setEmailVerif(false);
+            
+            
+        }
+    }
 
-  
-    let resolver;
+//VERIFY OTP SENT TO PHONE COMPLETING MULTIFACTOR ENROLLMENT////////////////////
+    const OTPAuth = (e) => {
+        let code = e.target.value;
+        setOTP(code);
+        console.log(code);
+        if(auth.currentUser && verificationId && code.length === 6) {
+            const credential = PhoneAuthProvider.credential(verificationId, code)
+            const multiFactorAssertion = PhoneMultiFactorGenerator.assertion(credential);
+            multiFactor(auth.currentUser).enroll(multiFactorAssertion, 'phone-number')
+                .then(() => {
+                    setMFAEnrolled(true);
+                    setOtpField(false);
+                    alert("MFA Enrolled!")
+                })
+        }
+    }
+
+
+//LOGIN AN EXSISTING USER/////////////////////////////////
     const login = async () => {
-        setShowOTP(true);
-
         try {
             await signInWithEmailAndPassword(auth, loginEmail, loginPassword)
         }   catch (error)  {
@@ -147,13 +203,13 @@ const Auth = ({ clicked, setClicked }) => {
         let appVerifier = window.recaptchaVerifier;
 
         window.verificationId = await phoneAuthProvider.verifyPhoneNumber(phoneInfo, appVerifier)
-        console.log(window.verificationId);        
-        alert("sms sent!");               
+        console.log(window.verificationId);
+        setShowOTP(true);        
+        console.log("Code sent!");               
     };
 
+    //VERIFY OTP FOR USER LOGIN//////////////////////////////////////////
     const verifyOTP = async (e) => {
-        
-        console.log(resolver);
         let otp = e.target.value;
         console.log(otp);
         setOTP(otp);
@@ -162,14 +218,10 @@ const Auth = ({ clicked, setClicked }) => {
             const multiFactorAssertion = PhoneMultiFactorGenerator.assertion(cred);
             const credential = await window.resolver.resolveSignIn(multiFactorAssertion);
             console.log(credential);
-            
         }
         
     }
     
-    
-
-
     const resendEmail = async () => {
         try {
             setButtonDisabled(true);
@@ -186,9 +238,21 @@ const Auth = ({ clicked, setClicked }) => {
             setButtonDisabled(false);
         }
     }
-    
 
     
+    const resetPassword = (e) => {
+        e.preventDefault();
+        sendPasswordResetEmail(auth, loginEmail)
+            .then(() => {
+                console.log("Email Sent!");
+                setShowResetForm(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        
+    }
+
     const logout = async () => {
         setLoginEmail("");
         setLoginPassword("");
@@ -207,33 +271,59 @@ const Auth = ({ clicked, setClicked }) => {
                         <label htmlFor="tab-2" className="tab">Sign Up</label>
                         
                     <div className="login-form">
-                        <div className="sign-in-htm">
-                            <div>
-                                <div className="group">
-                                    <label htmlFor="email" className="label">Email</label>
-                                    <input id="email" placeholder="Email..." className="input" onChange={(e) => setLoginEmail(e.target.value)}/>
-                                </div>
-                                <div className="group">
-                                    <label htmlFor="pass" className="label">Password</label>
-                                    <input id="pass" type="password" placeholder="Password..." className="input" data-type="password" onChange={(e) => setLoginPassword(e.target.value)}/>
-                                </div>
-                                <div className="group">
-                                    <button className="button" onClick={login}>Login</button>
-                                </div>
-                                { showOTP && <div>
-                                    <label htmlFor="OTP" className="label">OTP</label>
+                        { !showResetForm && <div className="sign-in-htm">
+                            { MFAEnrolled && <div>
+                                { !showOTP && <div>
+                                    <div className="group">
+                                        <label htmlFor="email" className="label">Email</label>
+                                        <input id="email" placeholder="Email..." className="input" onChange={(e) => setLoginEmail(e.target.value)}/>
+                                    </div>
+                                    <div className="group">
+                                        <label htmlFor="pass" className="label">Password</label>
+                                        <input id="pass" type="password" placeholder="Password..." className="input" data-type="password" onChange={(e) => setLoginPassword(e.target.value)}/>
+                                        <button id="resetPass" className="resetPassLink" type="button" onClick={(e) => {e.preventDefault(); setShowResetForm(true)}}>Forgot Password?</button>
+                                    </div>
+                                    <div className="group">
+                                        <button className="form-login-btn button" onClick={login}>Login</button>
+                                    </div>
+                                </div>}
+                                { showOTP && <div className="group">
+                                <hr className="login-divider"></hr>
+                                    <p className="verify-caption">Please enter the passcode we just sent you</p>
+                                    <hr className="login-divider"></hr>
+                                    <label htmlFor="OTP" className="label">Passcode</label>
                                     <input id="OTP" type="number" value={OTP} className="input" placeholder="Passcode..." onChange={verifyOTP}/>
                                  </div> }
-                            </div>
+                            </div>}
                             { !emailVerif && 
                             <div className="group">
                                 <label htmlFor="reqEmailLink" className="label" style={{textAlign: "center"}}>Your email is unverified</label>
                                 <button id="reqEmail" className="button" style={{background: timeActive ? 'red' : '#1161ee'}} onClick={resendEmail} disabled={timeActive}>Send Email Link {timeActive && time}</button>
                                 <button className="button" onClick={logout}>Logout session</button>
-                            </div>
-                            
+                            </div>}
+                            {!MFAEnrolled &&  
+                                <div className="group">
+                                    <hr className="login-divider"></hr>
+                                    <p className="verify-caption">Please verify your phone number to complete signup</p>
+                                    <hr className="login-divider"></hr>
+                                    <label htmlFor="phone" className="label">Phone Number</label>
+                                    <input id="phone" type="tel" value={userPhone} className="input" placeholder="Phone Number..." onChange={(e) => setUserPhone(e.target.value)}/>
+                                        { otpField === true  ? 
+                                            <div className="group">
+                                                <label htmlFor="OTP" className="label">Passcode</label>
+                                                <input id="OTP" type="number" value={OTP} className="input" placeholder="Passcode..." onChange={OTPAuth}/>
+                                            </div> 
+                                            : <button className="button" style={{background: timeActive ? 'red' : '#1161ee'}} onClick={createMFA} disabled={timeActive}>Request Passcode {timeActive && time}</button>}
+                                                <button className="button" onClick={logout}>Logout session</button>
+                                            </div>
                             }
-                        </div> 
+                        </div>}
+                        { showResetForm && 
+                            <div className="group password-reset-form">
+                                <label htmlFor="email" className="label">Enter the email address you signed up with</label>
+                                <input id="email" placeholder="Email..." className="input" onChange={(e) => setLoginEmail(e.target.value)}/>
+                                <button id="resetPass" className="button" onClick={resetPassword} >Reset Password</button>
+                            </div>} 
                         <div className="sign-up-htm">
                             <div className="group">
                                 <label htmlFor="signUpEmail" className="label">Email</label>
