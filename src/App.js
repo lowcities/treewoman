@@ -19,25 +19,30 @@ function App() {
   const [currentUser, setCurrentUser] = useState("");
   const [phoneVerified, setPhoneVerified] = useState(true);
   
-  onAuthStateChanged(auth, (user) => {
-    if(user) {
-      let MFUser = multiFactor(auth.currentUser);
-      console.log(MFUser);
-      if(MFUser.enrolledFactors.length !== 0) {
-        setAuthenticated(true);
-        setPhoneVerified(true);
-        setClicked(false);
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if(user) {
         setCurrentUser(user);
-      } else if(user.emailVerified && !user.phoneNumber) {
-        setPhoneVerified(false);
-        setClicked(false);
+        let MFUser = multiFactor(auth.currentUser);
+        console.log(MFUser);
+        if(MFUser.enrolledFactors.length !== 0) {
+          console.log("enrolled");
+          setAuthenticated(true);
+          setPhoneVerified(true);
+          setClicked(false);
+          setCurrentUser(user);
+        } else if(user.emailVerified && !user.phoneNumber) {
+          setPhoneVerified(false);
+        }
+      } else {
+        setAuthenticated(false);
+        setPhoneVerified(true);
+        setCurrentUser(null);
       }
-    } else {
-      setAuthenticated(false);
-      setPhoneVerified(true);
-      setCurrentUser("");
-    }
-  })
+    });
+
+  }, [])
+  
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, setCurrentUser);
@@ -47,6 +52,8 @@ function App() {
   }, []);
   
   const logout = async () => {
+    setCurrentUser(null);
+    setClicked(false);
     await signOut(auth);
   };
 
@@ -55,17 +62,14 @@ function App() {
   
  return (
     <div className="App">
-      
-        { authenticated === true ?  <span className="login-btn" onClick={logout}>Logout: {currentUser.email}</span> 
+      { authenticated === true ?  <span className="login-btn" onClick={logout}>Logout: {auth.currentUser.email} </span> 
         : <span className="login-btn" onClick={(e) => clicked === false ? setClicked(true) : setClicked(false)}>Login/SignUp</span>}
         <Title/>
-        { clicked && <Auth clicked={clicked} setClicked={setClicked} /> }
-        { !phoneVerified && <PhoneAuth currentUser={currentUser} /> }
+         { clicked && <Auth setClicked={setClicked} />} 
         <UploadForm />
         <ImageGrid setSelectedImg={setSelectedImg} setCaption={setCaption} setYear={setYear} />
         { selectedImg && <Modal selectedImg={selectedImg} setSelectedImg={setSelectedImg} caption={caption} year={year} />}
         <Footer />
-      
     </div>
   );
 }

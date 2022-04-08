@@ -20,17 +20,11 @@ body{
   font-family: "Noto Serif";
   color: var(--secondary);
 }
+p{
+  font-family: "Noto Serif";
+}
 h1{
   margin: 0 0;
-}
-hr {
-  background-image: linear-gradient(to right, #80b6d5, #5cb5d8, #75bfda);
-  border: none;
-  height: 5px;
-  width: 90%;margin-left: auto;margin-right: auto;margin-bottom: 4rem;
-}
-hr::after {
-  background-image: url("https://www.flaticon.com/free-icons/tree");
 }
 .App{
   /* max-width: 960px; */
@@ -93,6 +87,10 @@ hr::after {
   touch-action: manipulation;
   z-index: 100;
 }
+.login-btn:hover {
+  background-color: rgba(93, 81, 171, 0.8);
+  color: #ffffff;
+}
 .login-signup-form {
   display: flex;
   flex-direction: column;
@@ -102,6 +100,12 @@ hr::after {
   margin: 0 auto;
   width: 100%;
   z-index: 99;
+}
+.login-divider {
+  background-color: #000000;
+  height: 3px;
+  margin-bottom: 1rem;
+  width: 100%;
 }
 .login-html {
   background: rgba(172, 216, 235, 0.8);
@@ -154,7 +158,10 @@ hr::after {
 	margin-bottom:15px;
 }
 #pass, #loginPass {
-  margin-bottom: 1.5rem;
+  
+}
+.button {
+  cursor: pointer;
 }
 .login-form .group .label,
 .login-form .group .input,
@@ -172,6 +179,9 @@ hr::after {
 	border-radius:25px;
 	background:rgba(35, 130, 212, 0.502);
 }
+.form-login-btn {
+  margin-top: 30px;
+}
 .login-form .group input[data-type="password"]{
 	text-security:circle;
 	-webkit-text-security:circle;
@@ -183,6 +193,9 @@ hr::after {
 }
 .login-form .group .button{
 	background:#1161ee;
+}
+.login-form .group .button:hover{
+	background:#450da6;
 }
 .login-form .group label .icon{
 	width:15px;
@@ -230,6 +243,27 @@ hr::after {
 .login-html .sign-up:checked + .tab + .login-form .sign-up-htm{
 	transform:rotate(0);
 }
+.verify-caption {
+  margin: 1rem auto;
+  font-size: 1rem;
+}
+.resetPassLink {
+  background-color: transparent;
+  color: #18068b;
+  border: none;
+  cursor: pointer;
+  outline: 0;
+  font-size: small;
+  text-align: left;
+  margin-left: 6px;
+  width: 100%;
+}
+.resetPassLink:hover {
+  text-decoration: underline;
+}
+.password-reset-form {
+  margin-top: 3rem;
+}
 .recaptcha {
   height: auto;
   width: 100%;
@@ -243,6 +277,12 @@ label input{
   height: 0;
   width: 0;
   opacity: 0;
+}
+.upload-divider {
+  background-image: linear-gradient(to right, #80b6d5, #5cb5d8, #75bfda);
+  border: none;
+  height: 5px;
+  width: 90%;margin-left: auto;margin-right: auto;margin-bottom: 4rem;
 }
 .upload-btn {
   background-color: transparent;

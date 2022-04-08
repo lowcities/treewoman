@@ -23,7 +23,7 @@ const UploadForm = () => {
 
     return (
         <form>
-            <hr></hr>
+            <hr className='upload-divider'></hr>
             <label className='upload-btn'>
                 <input type='file' onChange={changeHandler} />
                 <span>UPLOAD</span>
