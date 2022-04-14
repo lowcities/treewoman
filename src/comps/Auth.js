@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, 
+import { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, 
     onAuthStateChanged, RecaptchaVerifier, multiFactor, reauthenticateWithCredential, sendEmailVerification, PhoneAuthProvider, getMultiFactorResolver, EmailAuthProvider, PhoneMultiFactorAssertion,  PhoneMultiFactorGenerator, sendPasswordResetEmail, signOut } from 'firebase/auth';
 import { auth } from '../firebase/config';
 import { async } from "@firebase/util";
 import PhoneAuth from "./PhoneAuth";
 
-const Auth = ({ clicked, setClicked }) => {
+const Auth = ({ setClicked, setAuthenticated }) => {
+    const [ userName, setUserName ] = useState("");
     const [ registerEmail, setRegisterEmail ] = useState("");
     const [ registerPassword, setRegisterPassword ] = useState("");
     const [ confirmPassword, setConfirmPassword ] = useState("");
@@ -15,7 +16,7 @@ const Auth = ({ clicked, setClicked }) => {
     const [user, setUser] = useState({});
     const [ MFAEnrolled, setMFAEnrolled ] = useState(true);
     const [ emailVerif, setEmailVerif ] = useState(true);
-    const [ userPhone, setUserPhone ] = useState(null);
+    const [ userPhone, setUserPhone ] = useState("");
     const [ showOTP, setShowOTP ] = useState(false);
     const [ otpField, setOtpField ] = useState(false);
     const [ OTP, setOTP ] = useState("");
@@ -38,18 +39,21 @@ const Auth = ({ clicked, setClicked }) => {
         }
     }
 
-    onAuthStateChanged(auth, (user) => {
-        if(user) {
-          let MFUser = multiFactor(auth.currentUser);
-          console.log(MFUser);
-          if(MFUser.enrolledFactors.length !== 0) {
-            setMFAEnrolled(true);
-          } else {
-            setMFAEnrolled(false);
-          }
-        }
-       
-      });
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if(user) {
+              let MFUser = multiFactor(auth.currentUser);
+              console.log(MFUser);
+              if(MFUser.enrolledFactors.length !== 0) {
+                setMFAEnrolled(true);
+              } else {
+                setMFAEnrolled(false);
+              }
+            }
+           
+          });
+    }, [])
+    
 
     const generateRecaptcha = () => {
         
@@ -120,7 +124,13 @@ const Auth = ({ clicked, setClicked }) => {
                 try {
                     setReqEmail(true);
                     setButtonDisabled(true);
-                    const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
+                    const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword)
+                        .then((user) => {
+                            updateProfile(auth.currentUser,{
+                                displayName: userName
+                            });
+                            console.log(user);
+                        })
                     const actionCodeSettings = {
                         url: 'https://treewoman.net/?uid=' + auth.currentUser.email,
                         handleCodeInApp: true,
@@ -176,8 +186,11 @@ const Auth = ({ clicked, setClicked }) => {
                 .then(() => {
                     setMFAEnrolled(true);
                     setOtpField(false);
-                    alert("MFA Enrolled!")
-                })
+                    setAuthenticated(true);
+                    setClicked(false);
+                    console.log("User MFA enrolled!");
+                    
+                });
         }
     }
 
@@ -217,6 +230,7 @@ const Auth = ({ clicked, setClicked }) => {
             const cred = PhoneAuthProvider.credential(window.verificationId, otp);
             const multiFactorAssertion = PhoneMultiFactorGenerator.assertion(cred);
             const credential = await window.resolver.resolveSignIn(multiFactorAssertion);
+            setClicked(false);
             console.log(credential);
         }
         
@@ -325,6 +339,10 @@ const Auth = ({ clicked, setClicked }) => {
                                 <button id="resetPass" className="button" onClick={resetPassword} >Reset Password</button>
                             </div>} 
                         <div className="sign-up-htm">
+                            <div className="group">
+                                <label htmlFor="username" className="label">Username</label>
+                                <input id="username" type="text" className="input" placeholder="Username..." style={fieldStyle} onChange={(e) => setUserName(e.target.value)}/>
+                            </div>
                             <div className="group">
                                 <label htmlFor="signUpEmail" className="label">Email</label>
                                 <input id="signUpEmail" type="text" className="input" placeholder="Email..." style={fieldStyle} onChange={(e) => setRegisterEmail(e.target.value)}/>
