@@ -23,10 +23,10 @@ const UploadForm = () => {
 
     return (
         <form>
-            <hr className='upload-divider'></hr>
-            <label className='upload-btn'>
+            
+            <label className='upload-label'>
                 <input type='file' onChange={changeHandler} />
-                <span>UPLOAD</span>
+                <span>ADD<br></br>PHOTO</span>
             </label>
            
             <div className='output'>
