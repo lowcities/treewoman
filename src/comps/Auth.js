@@ -56,12 +56,17 @@ const Auth = ({ setClicked, setAuthenticated }) => {
     
 
     const generateRecaptcha = () => {
-        
-        window.recaptchaVerifier = new RecaptchaVerifier('recap-cont', {
+        console.log(window.recaptchaVerifier);
+        if(window.recaptchaVerifier !== undefined) {
+            window.recaptchaVerifier.clear();
+            document.getElementById("recap-cont").innerHTML = `<div id="recap"></div>`;
+        }
+        window.recaptchaVerifier = new RecaptchaVerifier('recap', {
             'size': 'invisible',
             'callback': (response) => {
                 console.log("captcha solved!");
             }
+            
            
         }, auth);
     }
@@ -165,6 +170,9 @@ const Auth = ({ setClicked, setAuthenticated }) => {
                     // setOtpField(false);
                 }, (error) => {
                     console.log(error);
+                    setError(error);
+                    
+                    
                 });
         } else {
             
@@ -176,6 +184,7 @@ const Auth = ({ setClicked, setAuthenticated }) => {
 
 //VERIFY OTP SENT TO PHONE COMPLETING MULTIFACTOR ENROLLMENT////////////////////
     const OTPAuth = (e) => {
+        setError("");
         let code = e.target.value;
         setOTP(code);
         console.log(code);
@@ -189,6 +198,11 @@ const Auth = ({ setClicked, setAuthenticated }) => {
                     setAuthenticated(true);
                     setClicked(false);
                     console.log("User MFA enrolled!");
+                }, (error) => {
+                    setError(error);
+                    console.log("SMS error", error);
+                    setOTP("");
+                    
                     
                 });
         }
@@ -200,7 +214,7 @@ const Auth = ({ setClicked, setAuthenticated }) => {
         try {
             await signInWithEmailAndPassword(auth, loginEmail, loginPassword)
         }   catch (error)  {
-            if(error.code === 'auth/multi-factor-auth-required') {
+            if(error.code === 'auth/multi-factor-auth-required' ) {
                 window.resolver = getMultiFactorResolver(auth, error);
                 console.log(window.resolver);
             }    
@@ -211,7 +225,6 @@ const Auth = ({ setClicked, setAuthenticated }) => {
         }
         
         const phoneAuthProvider = new PhoneAuthProvider(auth);
-        
         generateRecaptcha();
         let appVerifier = window.recaptchaVerifier;
 
@@ -229,11 +242,17 @@ const Auth = ({ setClicked, setAuthenticated }) => {
         if(otp.length === 6) {
             const cred = PhoneAuthProvider.credential(window.verificationId, otp);
             const multiFactorAssertion = PhoneMultiFactorGenerator.assertion(cred);
+            try {
             const credential = await window.resolver.resolveSignIn(multiFactorAssertion);
             setClicked(false);
             console.log(credential);
+            } catch (error) {
+                console.log(error);
+                setError(error);
+                setOTP("");
+                
+            }
         }
-        
     }
     
     const resendEmail = async () => {
@@ -264,7 +283,6 @@ const Auth = ({ setClicked, setAuthenticated }) => {
             .catch((error) => {
                 console.log(error);
             })
-        
     }
 
     const logout = async () => {
@@ -272,8 +290,7 @@ const Auth = ({ setClicked, setAuthenticated }) => {
         setLoginPassword("");
         setClicked(false);
         await signOut(auth);
-        
-      };
+    };
    
     return (
         <div>
@@ -307,7 +324,12 @@ const Auth = ({ setClicked, setAuthenticated }) => {
                                     <hr className="login-divider"></hr>
                                     <label htmlFor="OTP" className="label">Passcode</label>
                                     <input id="OTP" type="number" value={OTP} className="input" placeholder="Passcode..." onChange={verifyOTP}/>
-                                 </div> }
+                                    {error && <div><span style={{color: 'red'}}>{error.code}</span>
+                                        <button className="button" onClick={login}>RESEND PASSCODE</button></div>}
+                                 </div> 
+                                 
+                                 }
+                                    
                             </div>}
                             { !emailVerif && 
                             <div className="group">
@@ -328,9 +350,15 @@ const Auth = ({ setClicked, setAuthenticated }) => {
                                                 <input id="OTP" type="number" value={OTP} className="input" placeholder="Passcode..." onChange={OTPAuth}/>
                                             </div> 
                                             : <button className="button" style={{background: timeActive ? 'red' : '#1161ee'}} onClick={createMFA} disabled={timeActive}>Request Passcode {timeActive && time}</button>}
+                                            {error && <div><span className="error-msg" style={{color: 'red'}}>{error.code}</span>
+                                                <button className="button" style={{marginTop: "15px"}} onClick={createMFA}>RESEND PASSCODE</button></div>}  
                                                 <button className="button" onClick={logout}>Logout session</button>
+                                                  
                                             </div>
-                            }
+                                            
+                                        }
+                                        
+                                        
                         </div>}
                         { showResetForm && 
                             <div className="group password-reset-form">
@@ -360,7 +388,7 @@ const Auth = ({ setClicked, setAuthenticated }) => {
                             </div>}
                             { reqEmail && 
                             <div className="group">
-                                <label htmlFor="reqEmailLink" className="label">Please Check your Email for verification link</label>
+                                <label htmlFor="reqEmailLink" className="label" style={{color: '#5d5656', border: "1px solid red" }}>Please Check your Email for verification link</label>
                                 <button id="reqEmail" className="button" style={{background: timeActive ? 'red' : '#1161ee'}} onClick={resendEmail} disabled={timeActive}>Resend Email {timeActive && time}</button>
                             </div>
                             }
@@ -370,7 +398,10 @@ const Auth = ({ setClicked, setAuthenticated }) => {
                 </div>
               
             </div>
-            <div id="recap-cont" className="recaptcha"></div>
+            <div id="recap-cont" >
+                <div id="recap"></div>
+            </div>
+            
         </div>
     );
 }
