@@ -675,8 +675,11 @@ label input{
   .menu-button span,
   .login-btn span,
   .upload-button span{
-    left: 1.2rem;
+    left: 1.1rem;
     font-size: 1rem;
+  }
+  .logout-btn span {
+    left: 2rem;
   }
   .login-html {
     padding: 2rem 2.2rem 4rem 2.2rem;
@@ -693,6 +696,30 @@ label input{
   }
   .caption {
     font-size: 1.5rem;
+  }
+  .carousel-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-height: 500px;
+    z-index: 100;
+  }
+  .photo-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .photo-frame {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    width: 100%;
+    padding-bottom: 75%;
   }
   
 }
