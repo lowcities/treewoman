@@ -3,7 +3,6 @@ import { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPasswo
     onAuthStateChanged, RecaptchaVerifier, multiFactor, reauthenticateWithCredential, sendEmailVerification, PhoneAuthProvider, getMultiFactorResolver, EmailAuthProvider, PhoneMultiFactorAssertion,  PhoneMultiFactorGenerator, sendPasswordResetEmail, signOut } from 'firebase/auth';
 import { auth } from '../firebase/config';
 import { async } from "@firebase/util";
-import PhoneAuth from "./PhoneAuth";
 
 const Auth = ({ setClicked, setAuthenticated }) => {
     const [ userName, setUserName ] = useState("");
