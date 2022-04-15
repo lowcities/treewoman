@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';gitgit 
+import React, { useState, useEffect } from 'react';
 import Title from './comps/Title';
 import Menu from './comps/Menu';
 import UploadForm from './comps/UploadForm';
