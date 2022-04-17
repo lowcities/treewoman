@@ -18,14 +18,12 @@ const ProgressBar = ({ file, setFile }) => {
     console.log(file, caption);
     return (
         <div className='container'>
-            <div className='progress-container'>
+            {progress < 100 && <div className='progress-container'>
                 <motion.div className="progress-bar"
                     initial={{ width: 0 }}
                     animate= {{ width: progress + '%' }}
                 ></motion.div>
-                
-
-            </div>
+            </div>}
             {progress === 100 && <ImageCaption url={url} caption={caption} setCaption={setCaption}/>}
         </div>
          

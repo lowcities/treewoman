@@ -22,6 +22,7 @@ const UploadForm = () => {
     }
 
     return (
+        <div>
         <form>
             
             <label className='upload-label'>
@@ -29,13 +30,15 @@ const UploadForm = () => {
                 <span>ADD<br></br>PHOTO</span>
             </label>
            
-            <div className='output'>
+            
+        </form>
+        <div className='output'>
                 { error && <div className='error'>{ error }</div> }
-                { file && <div> { file.name }</div> }
+                { file && <div style={{textAlign: "center", fontWeight:"bolder", fontSize: "2rem"}}> { file.name }</div> }
                 { file && <ProgressBar file={file} setFile={setFile} />}
                 
             </div>
-        </form>
+         </div>   
     )
 }
 

@@ -4,7 +4,8 @@ import { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPasswo
 import { auth } from '../firebase/config';
 import { async } from "@firebase/util";
 
-const Auth = ({ setClicked, setAuthenticated }) => {
+const Auth = ({ clicked, setClicked, setAuthenticated }) => {
+    const countryCode = '+1';
     const [ userName, setUserName ] = useState("");
     const [ registerEmail, setRegisterEmail ] = useState("");
     const [ registerPassword, setRegisterPassword ] = useState("");
@@ -15,7 +16,7 @@ const Auth = ({ setClicked, setAuthenticated }) => {
     const [user, setUser] = useState({});
     const [ MFAEnrolled, setMFAEnrolled ] = useState(true);
     const [ emailVerif, setEmailVerif ] = useState(true);
-    const [ userPhone, setUserPhone ] = useState("");
+    const [ userPhone, setUserPhone ] = useState(countryCode);
     const [ showOTP, setShowOTP ] = useState(false);
     const [ otpField, setOtpField ] = useState(false);
     const [ OTP, setOTP ] = useState("");
@@ -64,6 +65,10 @@ const Auth = ({ setClicked, setAuthenticated }) => {
             'size': 'invisible',
             'callback': (response) => {
                 console.log("captcha solved!");
+            },
+            'expired-callback': () => {
+                console.log("recaptcha expired");
+                
             }
             
            
@@ -176,6 +181,7 @@ const Auth = ({ setClicked, setAuthenticated }) => {
         } else {
             
             setEmailVerif(false);
+            setMFAEnrolled(true);
             
             
         }
@@ -295,6 +301,7 @@ const Auth = ({ setClicked, setAuthenticated }) => {
         <div>
             <div className="login-signup-form">
                 <div className="login-html">
+                    <span className="close-form-btn" onClick={(e) => clicked === false ? setClicked(true) : setClicked(false)}></span>
                         <input id="tab-1" type="radio" name="tab" className="sign-in" defaultChecked/>
                         <label htmlFor="tab-1" className="tab">Sign In</label>
                         <input id="tab-2" type="radio" name="tab" className="sign-up"/>
@@ -325,6 +332,7 @@ const Auth = ({ setClicked, setAuthenticated }) => {
                                     <input id="OTP" type="number" value={OTP} className="input" placeholder="Passcode..." onChange={verifyOTP}/>
                                     {error && <div><span style={{color: 'red'}}>{error.code}</span>
                                         <button className="button" onClick={login}>RESEND PASSCODE</button></div>}
+                                        <button className="button" onClick={logout}>Logout session</button>
                                  </div> 
                                  
                                  }
@@ -367,7 +375,7 @@ const Auth = ({ setClicked, setAuthenticated }) => {
                             </div>} 
                         <div className="sign-up-htm">
                             <div className="group">
-                                <label htmlFor="username" className="label">Username</label>
+                                <label htmlFor="username" className="label">User name</label>
                                 <input id="username" type="text" className="input" placeholder="Username..." style={fieldStyle} onChange={(e) => setUserName(e.target.value)}/>
                             </div>
                             <div className="group">
@@ -388,7 +396,7 @@ const Auth = ({ setClicked, setAuthenticated }) => {
                             { reqEmail && 
                             <div className="group">
                                 <label htmlFor="reqEmailLink" className="label" style={{color: '#5d5656', border: "1px solid red" }}>Please Check your Email for verification link</label>
-                                <button id="reqEmail" className="button" style={{background: timeActive ? 'red' : '#1161ee'}} onClick={resendEmail} disabled={timeActive}>Resend Email {timeActive && time}</button>
+                                <button id="reqEmail" className="button req-email-btn" style={{opacity: timeActive ? 0 : 1 }} onClick={resendEmail} disabled={timeActive}>Resend Email {timeActive && time}</button>
                             </div>
                             }
                         </div> 

@@ -210,7 +210,6 @@ li:hover{
   touch-action: manipulation;
 }
 .upload-button span{
-  top: 25%;
   left: 10%;
 }
 .upload-label {
@@ -221,16 +220,26 @@ li:hover{
   height: 60px;
   width: 100%;
 }
+
+/* Login/SignUp Form Styles ***********************************/
+.close-form-btn {
+  background: url('./img/close-btn2.svg') center no-repeat;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0%;
+  padding: 10px;
+}
 .login-signup-form {
   display: flex;
   flex-direction: column;
   align-items: center;
   position: fixed;
   top: 0;
-  left: 25%;
+  left: 0;
   margin: 0 auto;
-  width: 50%;
-  z-index: 100;
+  width: 100%;
+  z-index: 98;
 }
 .login-divider {
   background-color: #000000;
@@ -239,9 +248,10 @@ li:hover{
   width: 100%;
 }
 .login-html {
+  position: relative;
   background: rgba(172, 216, 235, 0.8);
-  max-width: 80%;
-  min-height: 500px;
+  /* max-width: 80%; */
+  min-height: 550px;
   margin-top: 4rem;
   padding: 2rem 1.2rem 4rem 1.2rem;
 }
@@ -290,9 +300,6 @@ li:hover{
 }
 .login-form .group{
 	margin-bottom:15px;
-}
-#pass, #loginPass {
-  
 }
 .button {
   cursor: pointer;
@@ -410,6 +417,8 @@ li:hover{
 }
 /* upload form styles */
 form{
+  position: absolute;
+  left: 0;
   /* margin: 30px auto 10px; */
   text-align: center;
 }
@@ -425,17 +434,21 @@ label input{
   width: 90%;margin-left: auto;margin-right: auto;margin-bottom: 4rem;
 }
 .output{
-  /* height: 60px;
-  font-size: 0.8rem; */
+  background-color: rgba(172, 216, 235);
+  position: fixed;
+  top: 5%;
+  left: 15%;
+  width: 70%;
 }
 .error{
   color: var(--error);
+  text-align: center;
+  font-weight: bold;
 }
 /* progress bar styles */
 .progress-bar {
   position: absolute;
-  left: 0;
-  
+  left: 40%;
   height: 1rem;
   content: "";
   background-color: #54b2e8;
@@ -443,25 +456,26 @@ label input{
   color: white;
 }
 .progress-container {
+  position: relative;
   margin: 1rem 5rem;
   height: 2rem;
   border-radius: 2rem;
-  position: relative;
   display: flex;
   justify-content: center;
   transition: all 0.5s;
   padding: 0 3rem;
+  width: 50%;
 }
-/* image desc styles */
+/* Image Caption Input Box Styles **********************************/
 
 .desc-form {
   box-sizing: border-box;
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 20%;
+  left: 25%;
   display: flex;
   flex-direction: column;
-  background-color: rgba(172, 216, 235, 0.8);
+  background-color: rgba(172, 216, 235);
   margin: 30px auto 10px;
   padding: 2rem;
   min-width: 300px;
@@ -641,6 +655,14 @@ label input{
     max-height: 500px;
   }
   
+}
+
+@media (max-width: 420px) {
+
+  .title h1 {
+    font-size: 6rem;
+    left: 0;
+  }
 }
 
 @media screen and (min-width: 585px) and (max-width:760px) {
