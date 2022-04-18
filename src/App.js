@@ -10,7 +10,6 @@ import Footer from './comps/Footer';
 import { onAuthStateChanged, multiFactor, signOut } from 'firebase/auth';
 import { auth } from './firebase/config';
 
-
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [clicked, setClicked ] = useState(false);

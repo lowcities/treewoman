@@ -75,27 +75,8 @@ const Auth = ({ clicked, setClicked, setAuthenticated }) => {
         }, auth);
     }
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, setUser);
-        return () => {
-            unsubscribe();
-        }
-    }, []);
+    const [user, setUser] = useState({});
 
-
-    useEffect(() => {
-        let interval = null
-        if(timeActive && time !== 0 ){
-          interval = setInterval(() => {
-            setTime((time) => time - 1)
-          }, 1000)
-        }else if(time === 0){
-          setTimeActive(false)
-          setTime(60)
-          clearInterval(interval)
-        }
-        return () => clearInterval(interval);
-      }, [timeActive, time]);
 
     const resetFields = () => {
         Array.from(document.querySelectorAll('input').forEach(input => (input.value = "")));
@@ -297,6 +278,8 @@ const Auth = ({ clicked, setClicked, setAuthenticated }) => {
         await signOut(auth);
     };
    
+    
+
     return (
         <div>
             <div className="login-signup-form">
