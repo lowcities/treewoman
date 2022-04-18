@@ -7,7 +7,7 @@ const ImageGrid = ({ setSelectedImg, setCaption, setYear }) => {
    
      return (
         <div>
-        <h2 className="sub-heading">Remembering and Celebrating Sarah Low</h2>
+        <h2 className="sub-heading">Remembering and Celebrating the Life of Sarah Lucille Low</h2>
         <hr className='upload-divider'></hr>
             <div className="img-grid">
                 { docs && docs.map(doc => (
