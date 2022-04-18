@@ -75,7 +75,7 @@ const Auth = ({ clicked, setClicked, setAuthenticated }) => {
         }, auth);
     }
 
-    const [user, setUser] = useState({});
+    
 
 
     const resetFields = () => {

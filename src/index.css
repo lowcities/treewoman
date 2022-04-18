@@ -253,19 +253,12 @@ li:hover{
   width: 100%;
 }
 .login-html {
-<<<<<<< HEAD
   position: relative;
   background: rgba(172, 216, 235);
   width: 100%;
   min-height: 550px;
   padding: 2rem 1.2rem 4rem 1.2rem;
   z-index: 100;
-=======
-  background: rgba(172, 216, 235, 0.8);
-  max-width: 80%;
-  margin-top: 4rem;
-  padding: 2rem;
->>>>>>> parent of 0718613... added email verification to the auth component
 }
 .login-html .sign-in-htm,
 .login-html .sign-up-htm{
