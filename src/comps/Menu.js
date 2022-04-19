@@ -44,7 +44,7 @@ const Menu = ({ authenticated, setAuthenticated }) => {
              { menuActive && <motion.li className="li-space upload-button"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-             ><UploadForm /></motion.li>}
+             ><UploadForm currentUser={currentUser} /></motion.li>}
             </motion.ul>
         </div>
     )
