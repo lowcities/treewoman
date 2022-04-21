@@ -4,22 +4,48 @@ import useFirestore from '../hooks/useFirestore';
 
 const ImageCarousel = ({ setSelectedImg, setCaption, year }) => {
     const { docs } = useFirestore('images');
-    const { currentPic, setCurrentPic } = useState(0);
+    const { currentPic, setCurrentPic } = useState("");
     console.log(docs);
     const imageArray = [];
     docs.map(doc => imageArray.push(doc));
     console.log(imageArray);
     
     let photoIndex = 0;
+    let frame;
+    console.log(frame);
     const nextPhoto = (e) => {
-        // if( currentPic >= docs.length -1 ) {
-        //     setCurrentPic(0);
-        // } else {
-        //     setCurrentPic(currentPic + 1);
-        // }
+        if(photoIndex >= docs.length -1) {
+            photoIndex = 0;
+        } else {
+            photoIndex++;
+            console.log(photoIndex);
+        }
+        imageVisible(photoIndex);
     }
 
     const previousPhoto = (e) => {
+        frame = document.querySelector('.photo-frame');
+        
+        if(photoIndex === 0) {
+            photoIndex = imageArray.length - 1;
+        } else {
+            photoIndex --;
+            console.log(photoIndex);
+        }
+        console.log(photoIndex);
+        frame.style.backgroundImage = `url(${imageArray[photoIndex].url})`
+    }
+
+    const imageVisible = (value) => {
+        let images = document.querySelectorAll('.photo-frame');
+        let current = images[value];
+        for(let i = 0; i < images.length; i++) {
+            if(i === value) {
+                current.classList.add('active');
+            } else {
+                images[i].classList.remove('active');
+            }
+        }
 
     }
 
@@ -30,11 +56,11 @@ const ImageCarousel = ({ setSelectedImg, setCaption, year }) => {
             animate={{ opacity: 1 }}
          >
          <span className="left-arrow" onClick={previousPhoto}></span>
-            <div className="photo-box">
-                { docs.length > 0 ? 
-                    <div className="photo-frame" key={imageArray[1]} style={{backgroundImage: `url(${docs[photoIndex].url})`}}></div>
-                    : <div>Waiting</div>
-                }
+            <div className="photo-box" >
+                { docs && imageArray.map(pic => (
+                    <div className="photo-frame" key={imageArray[pic]} style={{backgroundImage: `url(${pic.url})`}}></div>
+        
+                ))}
             </div>
             
             <span className="right-arrow" onClick={nextPhoto}></span>
