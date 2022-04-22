@@ -845,21 +845,14 @@ input:checked + .toy-toggle .handle-on {
   font-family: 'Fleur De Leah', cursive;
   color: white;
   position: absolute;
-  bottom: 0;
-  left: 25%;
+  left: 0;
+  right: 0;
+  bottom: 4rem;
+  text-align: center;
   width: 100%;
   padding-bottom: 10px;
 }
 /* AutoPlay Switch *****/
-.play-label {
-  background: url('../src/img/playpause.svg') center no-repeat;
-  background-size: contain;
-  width: 4px;
-  height: 4px;
-  margin-top: 5px;
-  padding: 1rem;
-  
-}
 .autoplay-switch {
   /* border: .5px solid white; */
   display: flex;
@@ -870,7 +863,17 @@ input:checked + .toy-toggle .handle-on {
   right:0;
   margin: .3rem;
   z-index: 100;
+  
 
+}
+.play-label {
+  background: url('../src/img/playpause.svg') center no-repeat;
+  background-size: contain;
+  width: 4px;
+  height: 4px;
+  margin-top: 5px;
+  padding: 1rem;
+  
 }
 .autoplay {
   margin:10px;
@@ -1008,7 +1011,21 @@ input:checked + .toy-toggle .handle-on {
   .caption {
     font-size: 1.5rem;
   }
-  
+  .play-label {
+    margin-top: 9px;
+  }
+  .autoplay {
+    width: 50px;
+    height: 27px;
+  }
+  .autoplay::before {
+    top: .7px;
+    height: 1.6rem;
+    width: 1.6rem;
+  }
+  .autoplay:checked::before {
+    left: 24px;
+  }
   .photo-box {
     display: flex;
     flex-direction: column;

@@ -3,10 +3,11 @@ import { motion } from 'framer-motion';
 import useFirestore from '../hooks/useFirestore';
 import ToggleSwitch from "./ToggleSwitch";
 
-const ImageCarousel = ({ setSelectedImg, setCaption, year }) => {
+const ImageCarousel = ({ setSelectedImg, setCaption }) => {
     const { docs } = useFirestore('images');
     const [ currentPic, setCurrentPic ] = useState(0);
     const [ index, setIndex ] = useState(0);
+    const [ year, setYear ] = useState(null);
     const [ autoPlayOn, setAutoPlayOn ] = useState(false);
     const imageArray = [];
     docs.map(doc => imageArray.push(doc));
@@ -82,13 +83,15 @@ const ImageCarousel = ({ setSelectedImg, setCaption, year }) => {
             </div>
             <div className="photo-box">
                 { docs && imageArray.map(pic => (
-                    <div className="photo-frame" key={pic.id} style={{backgroundImage: `url(${pic.url})`}}></div>
-        
+                    <div className="photo-frame" key={pic.id} style={{backgroundImage: `url(${pic.url})`}}>
+                        <h1 className="carousel-year">{pic.dateOfImg}</h1>
+                    </div>
+                    
                 ))}
             </div>
             
             <span className="right-arrow" onClick={nextPhoto}></span>
-            <h1 className='carousel-year'>{year}</h1>
+            
          </motion.div>
      )
 }
