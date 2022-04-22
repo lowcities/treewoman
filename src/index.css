@@ -852,12 +852,12 @@ input:checked + .toy-toggle .handle-on {
 }
 /* AutoPlay Switch *****/
 .play-label {
-  background: url('../src/img/play.svg') center no-repeat;
+  background: url('../src/img/playpause.svg') center no-repeat;
   background-size: contain;
   width: 4px;
   height: 4px;
-  margin-top: 9px;
-  padding: .7rem;
+  margin-top: 5px;
+  padding: 1rem;
   
 }
 .autoplay-switch {

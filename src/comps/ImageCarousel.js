@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from 'framer-motion';
 import useFirestore from '../hooks/useFirestore';
 import ToggleSwitch from "./ToggleSwitch";
@@ -6,33 +6,34 @@ import ToggleSwitch from "./ToggleSwitch";
 const ImageCarousel = ({ setSelectedImg, setCaption, year }) => {
     const { docs } = useFirestore('images');
     const [ currentPic, setCurrentPic ] = useState(0);
+    const [ index, setIndex ] = useState(0);
     const [ autoPlayOn, setAutoPlayOn ] = useState(false);
-    console.log(docs);
     const imageArray = [];
     docs.map(doc => imageArray.push(doc));
+    
+    
     console.log(imageArray);
     
-    let photoIndex = 0;
+    
     let frame = document.querySelector('.photo-frame');
     const nextPhoto = (e) => {
-        if(photoIndex >= docs.length -1) {
-            photoIndex = 0;
+        if(index >= docs.length -1) {
+            setIndex(0);
         } else {
-            photoIndex++;
-            console.log(photoIndex);
+            setIndex((prevIndex) => prevIndex + 1);
+            console.log(index);
         }
-        imageVisible(photoIndex);
+        imageVisible(index);
     }
 
     const previousPhoto = (e) => {
-        if(photoIndex === 0) {
-            photoIndex = imageArray.length - 1;
+        if(index === 0) {
+            setIndex(imageArray.length - 1);
         } else {
-            photoIndex --;
-            console.log(photoIndex);
+            setIndex((prevIndex) => prevIndex - 1);
+            console.log(index);
         }
-        console.log(photoIndex);
-        imageVisible(photoIndex);
+        imageVisible(index);
     }
 
     const imageVisible = (value) => {
@@ -48,17 +49,25 @@ const ImageCarousel = ({ setSelectedImg, setCaption, year }) => {
 
     }
 
-    
-   let interval;
+    let interval;
     const changeHandler = (e) => {
-        clearInterval(interval);
-       
-       if(document.querySelector('.autoplay').checked) {
-           interval = setInterval(nextPhoto, 3000);
-       } else {
-           clearInterval(interval);
-       }
+        return autoPlayOn ? setAutoPlayOn(false) : setAutoPlayOn(true);
     }
+
+    useEffect(() => {
+        imageVisible(index);
+        console.log("effect");
+    }, [docs])
+    
+    useEffect(() => {
+        if(autoPlayOn) {
+        const interval = setInterval(nextPhoto, 4000);
+        return () => clearInterval(interval);
+        } else {
+            return () => clearInterval(interval);
+        }
+        
+    }, [autoPlayOn, index])
 
     console.log(currentPic);
      return (
