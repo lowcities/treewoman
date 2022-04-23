@@ -11,7 +11,9 @@ const ImageCarousel = ({ setSelectedImg, setCaption }) => {
     const [ autoPlayOn, setAutoPlayOn ] = useState(false);
     const imageArray = [];
     docs.map(doc => imageArray.push(doc));
-    
+    imageArray.sort(function(a,b) {
+        return parseInt(a.dateOfImg) - parseInt(b.dateOfImg);
+    })
     
     console.log(imageArray);
     

@@ -16,7 +16,11 @@ const Modal = ({ selectedImg, setSelectedImg, caption, year }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
         >
-            <span className='caption-btn' onClick={(e) => captionShow === false ? setCaptionShow(true) : setCaptionShow(false) }>CAPTION</span>
+            {/* <span className='caption-btn' onClick={(e) => captionShow === false ? setCaptionShow(true) : setCaptionShow(false) }>CAPTION</span> */}
+            <div className="caption-switch-container">
+                <label htmlFor="captionBtn" className="caption-switch-label">CAPTION</label>
+                <input className="caption-switch" id="captionBtn" type="checkbox" onChange={(e) => captionShow === false ? setCaptionShow(true) : setCaptionShow(false)} />
+            </div>
             <motion.img src={selectedImg} alt="enlarged pic" 
                 initial={{ scale: 0, y: "-100vh" }}
                 animate= {{ scale: 1, y: "0" }}
