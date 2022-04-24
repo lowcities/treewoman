@@ -865,6 +865,30 @@ input:checked + .toy-toggle .handle-on {
   color: white;
   /* left: 50%; */
 }
+.caption-btn {
+  background: rgba(172, 216, 235, 0.8);
+  font-size: 16px;
+  font-weight: 200;
+  letter-spacing: 1px;
+  padding: 13px 20px 13px;
+  outline: 0;
+  border: 1px solid black;
+  cursor: pointer;
+  margin: 1rem;
+  position: fixed;
+  justify-content: left;
+  align-items: center;
+  top: 0;
+  left: 0;
+  
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+.caption-btn:hover:active {
+  background-color: #450da6;
+  color: white;
+}
 .caption-switch-label {
   position: absolute;
   top: 0;

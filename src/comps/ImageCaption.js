@@ -21,12 +21,13 @@ const ImageCaption = ({url, caption, setCaption}) => {
     
     const clickHandler = (e) => {
         e.preventDefault();
-        setCaption(true);
-        console.log(caption);
         updateDoc(imageRef, {
             caption: text,
             dateOfImg: date
         });
+        console.log("worked?");
+        setCaption(true);
+        
     }
 
     return (
