@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, 
-    onAuthStateChanged, RecaptchaVerifier, multiFactor, reauthenticateWithCredential, sendEmailVerification, PhoneAuthProvider, getMultiFactorResolver, EmailAuthProvider, PhoneMultiFactorAssertion,  PhoneMultiFactorGenerator, sendPasswordResetEmail, signOut } from 'firebase/auth';
+    onAuthStateChanged, RecaptchaVerifier, multiFactor, sendEmailVerification, 
+    PhoneAuthProvider, getMultiFactorResolver, PhoneMultiFactorGenerator, sendPasswordResetEmail, linkWithCredential, signOut } from 'firebase/auth';
 import { auth } from '../firebase/config';
 import { async } from "@firebase/util";
 
@@ -43,7 +44,7 @@ const Auth = ({ clicked, setClicked, setAuthenticated }) => {
         onAuthStateChanged(auth, (user) => {
             if(user) {
               let MFUser = multiFactor(auth.currentUser);
-              console.log(MFUser);
+              console.log(MFUser.enrolledFactors);
               if(MFUser.enrolledFactors.length !== 0) {
                 setMFAEnrolled(true);
               } else {
@@ -140,6 +141,10 @@ const Auth = ({ clicked, setClicked, setAuthenticated }) => {
     const createMFA = () => {
         setOtpField(true);
         if(auth.currentUser.emailVerified) {
+            if(userPhone === '+13333333333') {
+                console.log("Access Denied");
+                logout();
+            };
             const provider = new PhoneAuthProvider(auth);
             multiFactor(auth.currentUser).getSession()
                 .then((multiFactorSession) => {
@@ -209,7 +214,6 @@ const Auth = ({ clicked, setClicked, setAuthenticated }) => {
             multiFactorHint: window.resolver.hints[0],
             session: window.resolver.session,
         }
-        
         const phoneAuthProvider = new PhoneAuthProvider(auth);
         generateRecaptcha();
         let appVerifier = window.recaptchaVerifier;
@@ -229,14 +233,13 @@ const Auth = ({ clicked, setClicked, setAuthenticated }) => {
             const cred = PhoneAuthProvider.credential(window.verificationId, otp);
             const multiFactorAssertion = PhoneMultiFactorGenerator.assertion(cred);
             try {
-            const credential = await window.resolver.resolveSignIn(multiFactorAssertion);
-            setClicked(false);
-            console.log(credential);
+                const credential = await window.resolver.resolveSignIn(multiFactorAssertion);
+                setClicked(false);
+                console.log(credential);
             } catch (error) {
                 console.log(error);
                 setError(error);
                 setOTP("");
-                
             }
         }
     }

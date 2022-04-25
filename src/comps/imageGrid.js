@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from 'framer-motion';
 import useFirestore from '../hooks/useFirestore';
 
-const ImageGrid = ({ setSelectedImg, setCaption, setYear }) => {
+const ImageGrid = ({ setSelectedImg, setCaption, setYear, setImgID }) => {
     const { docs } = useFirestore('images');
     console.log(docs);
    
@@ -18,7 +18,8 @@ const ImageGrid = ({ setSelectedImg, setCaption, setYear }) => {
                         onClick={() => {
                             setSelectedImg(doc.url);
                             setCaption(doc.caption);
-                            setYear(doc.dateOfImg);}
+                            setYear(doc.dateOfImg);
+                            setImgID(doc.id)}
                         }
                     >
                         <img src={doc.url} alt="sarahImage" />

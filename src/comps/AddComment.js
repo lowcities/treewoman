@@ -27,7 +27,8 @@ const AddComment = ({selectedImg, addCaption, setAddCaption}) => {
     
     
     const clickHandler = async () => {
-       try { setAddCaption(false);
+       try { 
+        setAddCaption(false);
         const collectionRef = collection(db, `images/${imageRef}/comments`);
         const createdAt = timestamp;
         const userComment = text;

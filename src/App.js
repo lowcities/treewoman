@@ -15,6 +15,7 @@ function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [clicked, setClicked ] = useState(false);
   const [selectedImg, setSelectedImg] = useState(null);
+  const [imgID, setImgID] = useState(null);
   const [ caption, setCaption ] = useState("");
   const [ gridMode, setGridMode ] = useState(true);
   const [year, setYear] = useState(null);
@@ -63,9 +64,9 @@ function App() {
       {authenticated && <div className='welcome-box'>Welcome {auth.currentUser.displayName}!</div>}
       <Title/>
       
-      {gridMode && <ImageGrid setSelectedImg={setSelectedImg} setCaption={setCaption} setYear={setYear} />}
+      {gridMode && <ImageGrid setSelectedImg={setSelectedImg} setCaption={setCaption} setYear={setYear} setImgID={setImgID}/>}
       {!gridMode && <ImageCarousel setSelectedImg={setSelectedImg} setCaption={setCaption} year={year} />}
-      { selectedImg && <Modal selectedImg={selectedImg} setSelectedImg={setSelectedImg} caption={caption} year={year} />}
+      { selectedImg && <Modal selectedImg={selectedImg} setSelectedImg={setSelectedImg} caption={caption} year={year} imgID={imgID} />}
         <Footer />
     </div>
   );

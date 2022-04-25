@@ -1,17 +1,48 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { motion } from 'framer-motion';
 import AddComment from './AddComment'
+import useFirestore from '../hooks/useFirestore';
+import { db } from "../firebase/config";
+import { Firestore, query, getDocs, collection, onSnapshot } from 'firebase/firestore';
 
-const Modal = ({ selectedImg, setSelectedImg, caption, year }) => {
+const Modal = ({ selectedImg, setSelectedImg, caption, year, imgID }) => {
+    // const { docs } = useFirestore('images');
+    const { docs } = useFirestore(`images/${imgID}/comments`);
     const [captionShow, setCaptionShow] = useState(false);
     const [ addCaption, setAddCaption ] = useState(false);
+    const [ error, setError ] = useState("");
      console.log(selectedImg);
-        const handleClick = (e) => {
-            if(e.target.classList.contains('backdrop')) {
+    console.log(imgID);
+     let imageRef;
+     docs.map(doc => {
+        console.log(doc);
+    });
+
+    
+
+    const handleClick = (e) => {
+        if(e.target.classList.contains('backdrop')) {
             setSelectedImg(null);
             }
         }
+    
+    let commentArray = [];    
+    //    useEffect(() => {
+    //     const q = query(collection(db, `images/${imageRef}/comments`));   
+        
+    //     const unsub = onSnapshot(q, (snapshot) => {
+    //             let documents = [];
+    //             snapshot.forEach(doc => {
+    //                 commentArray.push({...doc.data(),id: doc.id});
+    //             });
+    //             console.log(commentArray[1]);
+    //     })
+    //     return () => unsub();
 
+    //    }, [addCaption])
+            
+             
+          console.log(commentArray[0]);
     return (
         
         <motion.div className='backdrop' onClick={handleClick} 
@@ -30,6 +61,7 @@ const Modal = ({ selectedImg, setSelectedImg, caption, year }) => {
                 transition={{ delay: .5, type: "spring" }}
              />
                 <h1 className='year'>{year}</h1>
+                
                 { captionShow && 
                 <motion.div className='caption-box'
                     initial={{ opacity: 0 }}
@@ -39,12 +71,20 @@ const Modal = ({ selectedImg, setSelectedImg, caption, year }) => {
                     <div className='blurred'></div>
                         <div className='post-blur-cont'>
                             <p className='caption'>{caption}</p>
+                            { docs && docs.map(item => (
+                            <div className="comment-container" key={item.id}>
+                                <h1 className='comment'>{item.userComment}</h1>
+                                <span className='user'>{item.user}</span>
+                            </div>
+                            ))}    
                         </div>
+                        
                     
                 </div>
-                
-                
             </motion.div> }
+            <div>
+                
+            </div>
             
                 
            
