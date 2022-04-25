@@ -44,7 +44,7 @@ const Auth = ({ clicked, setClicked, setAuthenticated }) => {
         onAuthStateChanged(auth, (user) => {
             if(user) {
               let MFUser = multiFactor(auth.currentUser);
-              console.log(MFUser.enrolledFactors);
+              console.log(MFUser);
               if(MFUser.enrolledFactors.length !== 0) {
                 setMFAEnrolled(true);
               } else {
