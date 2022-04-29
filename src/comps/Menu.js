@@ -7,7 +7,7 @@ import { auth } from '../firebase/config'
 
 const Menu = ({ authenticated, setAuthenticated }) => {
     const [ menuActive, setMenuActive ] = useState(false);
-    const [clicked, setClicked ] = useState(false);
+    const [ clicked, setClicked ] = useState(false);
     const [ currentUser, setCurrentUser ] = useState("");
 
     
@@ -44,7 +44,7 @@ const Menu = ({ authenticated, setAuthenticated }) => {
              { menuActive && <motion.li className="li-space upload-button"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-             ><UploadForm currentUser={currentUser} /></motion.li>}
+             ><UploadForm currentUser={currentUser} /><span>&nbsp;&nbsp;ADD<br></br>PHOTO</span></motion.li>}
             </motion.ul>
         </div>
     )

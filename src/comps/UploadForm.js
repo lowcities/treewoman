@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ProgressBar from './ProgressBar';
 
 
@@ -23,13 +23,23 @@ const UploadForm = ({ currentUser }) => {
             setError('You must be logged in to upload');  
         }
     }
+    let timer;
+    useEffect(() => {
+        if(error) {
+        timer = setTimeout(() => setError(null), 4000);
+        return () => clearTimeout(timer);
+        } else {
+            return () => clearTimeout(timer);
+        }
+        
+    }, [error])
 
     return (
         <div>
             <form>
                 <label className='upload-label'>
                     <input type='file' onChange={changeHandler} />
-                    <span>ADD<br></br>PHOTO</span>
+                    
                 </label>
            
             

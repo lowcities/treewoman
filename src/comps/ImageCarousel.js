@@ -78,21 +78,24 @@ const ImageCarousel = ({ setSelectedImg, setCaption }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
          >
-            <span className="left-arrow" onClick={previousPhoto}></span>
+            
             <div className="autoplay-switch">
                 <label htmlFor="slideshow" className="play-label"></label>
                 <input className="autoplay" id="slideshow" type="checkbox" onChange={changeHandler} />
             </div>
+            
             <div className="photo-box">
+            
                 { docs && imageArray.map(pic => (
                     <div className="photo-frame" key={pic.id} style={{backgroundImage: `url(${pic.url})`}}>
                         <h1 className="carousel-year">{pic.dateOfImg}</h1>
                     </div>
                     
                 ))}
+                <span className="left-arrow" onClick={previousPhoto}></span>
+            <span className="right-arrow" onClick={nextPhoto}></span>
             </div>
             
-            <span className="right-arrow" onClick={nextPhoto}></span>
             
          </motion.div>
      )

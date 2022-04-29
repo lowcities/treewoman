@@ -6,10 +6,11 @@ import ToggleSwitch from './comps/ToggleSwitch';
 import ImageGrid from './comps/imageGrid';
 import ImageCaption from './comps/ImageCaption';
 import ImageCarousel from './comps/ImageCarousel';
-import Modal from './comps/modal';
+import Modal from './comps/Modal';
 import Footer from './comps/Footer';
 import { onAuthStateChanged, multiFactor, signOut } from 'firebase/auth';
 import { auth } from './firebase/config';
+import { motion } from 'framer-motion';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -54,6 +55,15 @@ function App() {
     await signOut(auth);
   };
 
+  useEffect(() => {
+    if(selectedImg) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "scroll";
+    }
+
+  }, [selectedImg])
+  
   
   console.log(authenticated);
   
@@ -61,12 +71,16 @@ function App() {
     <div className="App">
       <ToggleSwitch parentCallback={picLayout} />
       <Menu authenticated={authenticated} setAuthenticated={setAuthenticated} />
-      {authenticated && <div className='welcome-box'>Welcome {auth.currentUser.displayName}!</div>}
+      {authenticated && <motion.div className='welcome-box'
+                initial={{ scale: 0, y: "-100vh" }}
+                animate= {{ scale: 1, y: "0" }}
+                transition={{ delay: .5, type: "spring",stiffness: 100, damping: 20  }}
+      >Welcome {auth.currentUser.displayName}!</motion.div>}
       <Title/>
       
       {gridMode && <ImageGrid setSelectedImg={setSelectedImg} setCaption={setCaption} setYear={setYear} setImgID={setImgID}/>}
       {!gridMode && <ImageCarousel setSelectedImg={setSelectedImg} setCaption={setCaption} year={year} />}
-      { selectedImg && <Modal selectedImg={selectedImg} setSelectedImg={setSelectedImg} caption={caption} year={year} imgID={imgID} />}
+      { selectedImg && <Modal selectedImg={selectedImg} setSelectedImg={setSelectedImg} caption={caption} year={year} imgID={imgID} authenticated={authenticated} />}
         <Footer />
     </div>
   );

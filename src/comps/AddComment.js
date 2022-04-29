@@ -30,7 +30,7 @@ const AddComment = ({selectedImg, addCaption, setAddCaption}) => {
        try { 
         setAddCaption(false);
         const collectionRef = collection(db, `images/${imageRef}/comments`);
-        const createdAt = timestamp;
+        const createdAt = new Date().toDateString();
         const userComment = text;
         const user = currentUser;
         await addDoc(collectionRef, {createdAt, userComment, user})
