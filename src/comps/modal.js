@@ -13,17 +13,20 @@ const Modal = ({ selectedImg, setSelectedImg, caption, year, imgID, authenticate
     console.log(imgID);
 
     const handleClick = (e) => {
-        if(e.target.classList.contains('backdrop')) {
+        if(e.target.classList.contains('container')) {
             setSelectedImg(null);
             }
         }
         
         
     const showComment = (e) => {
-        let commentBox = document.getElementById('captionBox')
+        let commentBox = document.getElementById('captionBox');
+        let modalPic = document.getElementById('modalPic');
         if(commentBox.classList.contains('show-comments')) {
+            modalPic.classList.remove('scalePic');
             commentBox.classList.remove('show-comments');
         } else {
+            modalPic.classList.add('scalePic');
             commentBox.classList.add('show-comments');
         }
     }
@@ -39,42 +42,34 @@ const Modal = ({ selectedImg, setSelectedImg, caption, year, imgID, authenticate
                 <label htmlFor="captionBtn" className="caption-switch-label">COMMENTS</label>
                 <input className="caption-switch" id="captionBtn" type="checkbox" onChange={showComment} />
             </div>
-            <motion.img src={selectedImg} alt="enlarged pic" 
-                initial={{ scale: 0, y: "-100vh" }}
-                animate= {{ scale: 1, y: "0" }}
-                transition={{ delay: .5, type: "spring",stiffness: 100, damping: 20  }}
-             />
-                <h1 className='year'>{year}</h1>
-                
+            <div className='container'>
+                <div className='pic-year-container' id='modalPic'>    
+                    <motion.img src={selectedImg} alt="enlarged pic"/>
+                        <h1 className='year'>{year}</h1>
+                </div>    
                 
                 <motion.div className='caption-box' id='captionBox'
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                 >
-                <div className='caption-container'>
-                    <div className='blurred'></div>
-                        <div className='post-blur-cont'>
-                            <p className='caption'>{caption}</p>
-                            { docs && docs.map(item => (
-                                <div>
-                                    <div className="comment-container" key={item.id}>
-                                    <span className='user'>{item.user}</span>
-                                    <h1 className='comment'>{item.userComment}</h1>
-                                    
+                    <div className='caption-container'>
+                        <div className='blurred'></div>
+                            <div className='post-blur-cont'>
+                                <p className='caption'>{caption}</p>
+                                { docs && docs.map(item => (
+                                    <div>
+                                        <div className="comment-container" key={item.id}>
+                                        <span className='user'>{item.user}</span>
+                                        <h1 className='comment'>{item.userComment}</h1>
+                                        
+                                    </div>
+                                    <span className='comment-date' key={item.createdAt}>{item.createdAt}</span>
                                 </div>
-                                <span className='comment-date' key={item.createdAt}>{item.createdAt}</span>
+                                ))}    
                             </div>
-                            ))}    
                         </div>
-                        
-                    
-                </div>
-            </motion.div> 
-            <div>
-                
+                </motion.div>
             </div>
-            
-                
            
         </motion.div>
         
