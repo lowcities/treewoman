@@ -81,7 +81,7 @@ function App() {
       {gridMode && <ImageGrid setSelectedImg={setSelectedImg} setCaption={setCaption} setYear={setYear} setImgID={setImgID}/>}
       {!gridMode && <ImageCarousel setSelectedImg={setSelectedImg} setCaption={setCaption} year={year} />}
       { selectedImg && <Modal selectedImg={selectedImg} setSelectedImg={setSelectedImg} caption={caption} year={year} imgID={imgID} authenticated={authenticated} />}
-        <Footer />
+      <Footer />
     </div>
   );
 }

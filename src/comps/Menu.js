@@ -29,7 +29,7 @@ const Menu = ({ authenticated, setAuthenticated }) => {
             <motion.ul className="menu">
                 <motion.li className="menu-element menu-button" onClick={(e) => menuActive === true ? setMenuActive(false) : setMenuActive(true)}
                 initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+                animate={{ opacity: 1 }}
                     ><span>MENU</span></motion.li>
                 { menuActive && <motion.div 
                     initial={{ opacity: 0 }}
@@ -37,9 +37,6 @@ const Menu = ({ authenticated, setAuthenticated }) => {
                  { authenticated === true ? <li className="logout-btn li-space" onClick={logout}><span>LOG<br></br>OUT</span></li>
                  : <li className="login-btn li-space" onClick={(e) => clicked === false ? setClicked(true) : setClicked(false)}><span>LOGIN</span></li>}
                     </motion.div>}
-
-                {/* { authenticated === true ?  <span className="login-btn" onClick={logout}>Logout: {auth.currentUser.displayName} </span> 
-            : <span className="login-btn" onClick={(e) => clicked === false ? setClicked(true) : setClicked(false)}>Login/SignUp</span>} */}
             { clicked && <Auth clicked={clicked} setClicked={setClicked} setAuthenticated={setAuthenticated} />} 
              { menuActive && <motion.li className="li-space upload-button"
                 initial={{ opacity: 0 }}

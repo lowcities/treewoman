@@ -13,7 +13,8 @@ const Modal = ({ selectedImg, setSelectedImg, caption, year, imgID, authenticate
     console.log(imgID);
 
     const handleClick = (e) => {
-        if(e.target.classList.contains('container')) {
+        if(e.target.classList.contains('backdrop') ||
+        e.target.classList.contains('container')) {
             setSelectedImg(null);
             }
         }

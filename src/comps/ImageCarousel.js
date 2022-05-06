@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from 'framer-motion';
 import useFirestore from '../hooks/useFirestore';
-import ToggleSwitch from "./ToggleSwitch";
 
 const ImageCarousel = ({ setSelectedImg, setCaption }) => {
     const { docs } = useFirestore('images');
@@ -60,7 +59,7 @@ const ImageCarousel = ({ setSelectedImg, setCaption }) => {
     useEffect(() => {
         imageVisible(index);
         console.log("effect");
-    }, [docs])
+    }, [docs, index])
     
     useEffect(() => {
         if(autoPlayOn) {
@@ -70,7 +69,7 @@ const ImageCarousel = ({ setSelectedImg, setCaption }) => {
             return () => clearInterval(interval);
         }
         
-    }, [autoPlayOn, index])
+    }, [autoPlayOn, index, interval])
 
     console.log(currentPic);
      return (
