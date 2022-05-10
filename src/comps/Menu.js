@@ -30,18 +30,18 @@ const Menu = ({ authenticated, setAuthenticated }) => {
                 <motion.li className="menu-element menu-button" onClick={(e) => menuActive === true ? setMenuActive(false) : setMenuActive(true)}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                    ><span>MENU</span></motion.li>
+                    >MENU</motion.li>
                 { menuActive && <motion.div 
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}>
-                 { authenticated === true ? <li className="logout-btn li-space" onClick={logout}><span>LOG<br></br>OUT</span></li>
-                 : <li className="login-btn li-space" onClick={(e) => clicked === false ? setClicked(true) : setClicked(false)}><span>LOGIN</span></li>}
+                 { authenticated === true ? <li className="logout-btn li-space" onClick={logout}>LOG<br></br>OUT</li>
+                 : <li className="login-btn li-space" onClick={(e) => clicked === false ? setClicked(true) : setClicked(false)}>LOGIN</li>}
                     </motion.div>}
             { clicked && <Auth clicked={clicked} setClicked={setClicked} setAuthenticated={setAuthenticated} />} 
              { menuActive && <motion.li className="li-space upload-button"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-             ><UploadForm currentUser={currentUser} /><span>&nbsp;&nbsp;ADD<br></br>PHOTO</span></motion.li>}
+             ><UploadForm currentUser={currentUser} />ADD<br></br>PHOTO</motion.li>}
             </motion.ul>
         </div>
     )

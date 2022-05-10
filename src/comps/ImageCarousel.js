@@ -40,14 +40,20 @@ const ImageCarousel = ({ setSelectedImg, setCaption }) => {
 
     const imageVisible = (value) => {
         let images = document.querySelectorAll('.photo-frame');
+        let mandala = document.querySelector('.carousel-mandala');
         let current = images[value];
         for(let i = 0; i < images.length; i++) {
             if(i === value) {
                 current.classList.add('active');
+                mandala.classList.add('show-mandala');
             } else {
                 images[i].classList.remove('active');
+                
             }
         }
+        setTimeout(function() {
+            mandala.classList.remove('show-mandala');
+        }, 2000);
 
     }
 
@@ -84,6 +90,7 @@ const ImageCarousel = ({ setSelectedImg, setCaption }) => {
             </div>
             
             <div className="photo-box">
+                <div className="carousel-mandala"></div>
             
                 { docs && imageArray.map(pic => (
                     <div className="photo-frame" key={pic.id} style={{backgroundImage: `url(${pic.url})`}}>
