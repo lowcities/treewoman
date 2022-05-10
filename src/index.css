@@ -80,10 +80,10 @@ background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgb(255, 255, 255) 0%
   background-size: contain;
   /* top: 10%; */
   /* left: 0; */
-  width: 300px;
-  height: 300px;
+  width: 100%;
+  height: 100%;
   margin: 0 auto;
-  margin-top: 50px;
+  /* margin-top: 50px; */
 }
 .title {
   position: absolute;
@@ -757,7 +757,7 @@ input:checked + .toy-toggle .handle-on {
   z-index: 8;
 }
 .carousel-mandala {
-  opacity: 0;
+  opacity: 0.25;
   background: url('./img/mandala-white.png') center no-repeat;
   background-size: contain;
   position: absolute;
@@ -765,21 +765,7 @@ input:checked + .toy-toggle .handle-on {
   height: 100%;
   
 }
-.show-mandala {
-  animation: fadeOut 2s ease-in-out;
-  
-}
-@keyframes fadeOut {
-  0% {
-    opacity: 0.5;
-  }
-  50% {
-    opacity: 0.25;
-  }
-  100% {
-    opacity: 0;
-  }
-}
+
 .photo-box {
   display: flex;
   flex-direction: row;
@@ -1150,6 +1136,10 @@ input:checked + .toy-toggle .handle-on {
     touch-action: manipulation;
     z-index: 10;
 }
+.mandala {
+  height: 100%;
+  width: 100%;
+}
 }
 @media (min-width: 768px) {
 
@@ -1282,12 +1272,6 @@ input:checked + .toy-toggle .handle-on {
   .right-arrow {
     position: relative;
   }
-  /* .left-arrow {
-    order: 1;
-  }
-  .right-arrow {
-    order: 3;
-  } */
   .photo-box {
     /* flex-wrap: nowrap; */
     /* justify-content: space-around; */

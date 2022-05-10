@@ -2,7 +2,7 @@ import React, {useState, useEffect } from "react";
 import { motion } from 'framer-motion';
 import UploadForm from "./UploadForm";
 import Auth from "./Auth";
-import { onAuthStateChanged, multiFactor, signOut } from 'firebase/auth';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from '../firebase/config'
 
 const Menu = ({ authenticated, setAuthenticated }) => {
@@ -18,6 +18,15 @@ const Menu = ({ authenticated, setAuthenticated }) => {
         }
       }, []);
 
+    useEffect(() => {
+        let menuButton = document.getElementById('menuButton');
+        if(menuActive === true) {
+            menuButton.innerHTML = 'CLOSE';
+        } else {
+            menuButton.innerHTML = 'MENU';
+        }
+      }, [menuActive]);
+
       const logout = async () => {
         setCurrentUser(null);
         setClicked(false);
@@ -27,10 +36,10 @@ const Menu = ({ authenticated, setAuthenticated }) => {
     return (
         <div>
             <motion.ul className="menu">
-                <motion.li className="menu-element menu-button" onClick={(e) => menuActive === true ? setMenuActive(false) : setMenuActive(true)}
+                <motion.li className="menu-element menu-button" id="menuButton" onClick={(e) => menuActive === true ? setMenuActive(false) : setMenuActive(true)}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                    >MENU</motion.li>
+                    ></motion.li>
                 { menuActive && <motion.div 
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}>

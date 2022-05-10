@@ -40,21 +40,16 @@ const ImageCarousel = ({ setSelectedImg, setCaption }) => {
 
     const imageVisible = (value) => {
         let images = document.querySelectorAll('.photo-frame');
-        let mandala = document.querySelector('.carousel-mandala');
         let current = images[value];
         for(let i = 0; i < images.length; i++) {
             if(i === value) {
                 current.classList.add('active');
-                mandala.classList.add('show-mandala');
             } else {
                 images[i].classList.remove('active');
                 
             }
         }
-        setTimeout(function() {
-            mandala.classList.remove('show-mandala');
-        }, 2000);
-
+        
     }
 
     let interval;
