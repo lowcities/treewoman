@@ -44,7 +44,7 @@ const Menu = ({ authenticated, setAuthenticated }) => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}>
                  { authenticated === true ? <li className="logout-btn li-space" onClick={logout}>LOG<br></br>OUT</li>
-                 : <li className="login-btn li-space" onClick={(e) => clicked === false ? setClicked(true) : setClicked(false)}>LOGIN</li>}
+                 : <li className="login-btn li-space" onClick={(e) => clicked === false ? setClicked(true) : setClicked(false)}>- LOGIN -<br></br>SIGN UP</li>}
                     </motion.div>}
             { clicked && <Auth clicked={clicked} setClicked={setClicked} setAuthenticated={setAuthenticated} />} 
              { menuActive && <motion.li className="li-space upload-button"

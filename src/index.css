@@ -87,7 +87,7 @@ background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgb(255, 255, 255) 0%
 }
 .title {
   position: absolute;
-  top: 4rem;
+  top: 0;
   left: 0;
   right: 0;
   margin: 0 auto;
@@ -104,7 +104,7 @@ background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgb(255, 255, 255) 0%
   text-shadow: #bab3b3 2px 2px 0;
   color: rgb(130, 178, 181);
   text-align: center;
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 500;
   margin: 0;
 }
@@ -157,27 +157,9 @@ background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgb(255, 255, 255) 0%
 }
 .login-btn,
 .logout-btn {
-  /* background: url('./img/login.svg') center no-repeat; */
   background-color: #dde1e7;
   background-size: 3rem;
   width: 100%;
-}
-
-.logout-btn {
-  transform: rotate(180deg);
-            /* All browsers support */
-            -moz-transform: rotate(180deg);
-            -webkit-transform: rotate(180deg);
-            -o-transform: rotate(180deg);
-            -ms-transform: rotate(180deg);
-}
-.logout-btn span {
-  transform: rotate(180deg);
-            /* All browsers support */
-            -moz-transform: rotate(180deg);
-            -webkit-transform: rotate(180deg);
-            -o-transform: rotate(180deg);
-            -ms-transform: rotate(180deg);
 }
 
 .li-space {
@@ -195,10 +177,9 @@ li {
   height: 60px; */
 }
 li:hover{
-  font-size: large;
-  letter-spacing: 2px;
   color: #fefefe;
   box-shadow: inset -5px -5px 9px rgba(255,255,255,0.45), inset 5px 5px 9px rgba(94,104,121,0.3);
+  font-weight: bold;
 }
 .upload-button {
   /* background: url(./img/upload.svg) center no-repeat; */
@@ -1104,6 +1085,9 @@ input:checked + .toy-toggle .handle-on {
   .title  {
     font-size: 5rem;
   }
+  .sub-heading {
+    font-size: 2rem;
+  }
 }
 @media (min-width: 425px) {
   .caption-btn {
@@ -1122,7 +1106,6 @@ input:checked + .toy-toggle .handle-on {
     font-size: 16px;
     font-weight: 400;
     letter-spacing: 1px;
-    /* padding: 13px 20px 13px; */
     width: 200px;
     outline: 0;
     margin: 1rem;
@@ -1144,22 +1127,25 @@ input:checked + .toy-toggle .handle-on {
 @media (min-width: 768px) {
 
   .banner {
-    background: url('/src/img/TwBanner2.png') no-repeat;
-    background-size: contain;
-    background-position: center;
-    /* margin: 100px auto 0; */
+    background: url('/src/img/background.png') no-repeat;
+    background-size: cover;
+    background-position: top;
     margin: 0 auto;
-    max-height: 616px;
-    /* max-width: 80%; */
-    /* height: 100vh; */
-    
+    /* height: 60vh; */
+    /* width: 80%; */
+    max-width: 1100px;
   }
-  .title h1 {
+  .title {
     font-size: 7.2rem;
-    top: 0;
+    /* top: 0; */
   }
   .foreground {
-    display: none;
+    background: url('./img/fore-grnd-banner.png') bottom no-repeat;
+    background-size: contain;
+    width: 100%;
+    /* height: 500px; */
+    left: 0;
+    bottom: -110px;
   }
   .mandala {
     display: none;
@@ -1293,14 +1279,12 @@ input:checked + .toy-toggle .handle-on {
   }
   
 }
-@media only screen 
-  and (min-device-width: 375px) 
-  and (max-device-width: 1012px) 
-  and (orientation: landscape) { 
-    .title {
-      /* top: 14rem; */
-    }
+@media (min-width: 915px) {
+  .foreground {
+    bottom: -120px;
+  }
 }
+
 
 @media (min-width: 1160px) {
   .right-arrow,

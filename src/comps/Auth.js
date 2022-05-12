@@ -76,9 +76,6 @@ const Auth = ({ clicked, setClicked, setAuthenticated }) => {
         }, auth);
     }
 
-    
-
-
     const resetFields = () => {
         Array.from(document.querySelectorAll('input').forEach(input => (input.value = "")));
     }
@@ -141,10 +138,10 @@ const Auth = ({ clicked, setClicked, setAuthenticated }) => {
     const createMFA = () => {
         setOtpField(true);
         if(auth.currentUser.emailVerified) {
-            if(userPhone === '+13333333333') {
-                console.log("Access Denied");
-                logout();
-            };
+            // if(userPhone === '+13333333333') {
+            //     console.log("Access Denied");
+            //     logout();
+            // };
             const provider = new PhoneAuthProvider(auth);
             multiFactor(auth.currentUser).getSession()
                 .then((multiFactorSession) => {
@@ -381,7 +378,7 @@ const Auth = ({ clicked, setClicked, setAuthenticated }) => {
                             </div>}
                             { reqEmail && 
                             <div className="group">
-                                <label htmlFor="reqEmailLink" className="label" style={{color: '#5d5656', border: "1px solid red" }}>Please Check your Email for verification link</label>
+                                <label htmlFor="reqEmailLink" className="label" style={{color: '#5d5656', fontWeight: 800, border: "2px solid red", textAlign: "center" }}>Please Check your Email for verification link</label>
                                 <button id="reqEmail" className="button req-email-btn" style={{opacity: timeActive ? 0 : 1 }} onClick={resendEmail} disabled={timeActive}>Resend Email {timeActive && time}</button>
                             </div>
                             }
