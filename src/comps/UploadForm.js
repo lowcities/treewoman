@@ -46,7 +46,6 @@ const UploadForm = ({ currentUser }) => {
             </form>
             <div className='output'>
                 { error && <div className='error'>{ error }</div> }
-                { file && <div style={{textAlign: "center", fontWeight:"bolder", fontSize: "2rem"}}> { file.name }</div> }
                 { file && <ProgressBar file={file} setFile={setFile} />}
                 
              </div>

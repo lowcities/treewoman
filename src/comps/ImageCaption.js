@@ -32,7 +32,7 @@ const ImageCaption = ({url, caption, setCaption}) => {
 
     return (
         <div className='desc-form'>
-            <textarea className='desc-input' value={text} placeholder="Add your thoughts, memories or whatever you would like." onChange={(e) => {text = e.target.value}}></textarea>
+            <textarea className='desc-input' value={text} placeholder="Add your photo caption here." onChange={(e) => {text = e.target.value}}></textarea>
             <label htmlFor="yearInput" className='year-input-label'>Year of photo<br></br>(or best guess)</label>
             <input id="yearInput" className="year-input" type="number" min="1900" max="2099" step="1" value={date} onChange={(e) => {date = e.target.value }}></input>
             <button className="submit-caption-btn" onClick={clickHandler}>SUBMIT</button>

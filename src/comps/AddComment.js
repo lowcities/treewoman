@@ -42,7 +42,7 @@ const AddComment = ({selectedImg, addCaption, setAddCaption}) => {
 
     return (
         <div className='desc-form'>
-            <textarea className='desc-input' value={text} placeholder="Add your thoughts, memories or whatever you would like." onChange={(e) => {text = e.target.value}}></textarea>
+            <textarea className='desc-input' value={text} placeholder="Your comment here" onChange={(e) => {text = e.target.value}}></textarea>
             <button className="button submit-caption-btn" onClick={clickHandler}>SUBMIT</button>
         </div>
     )

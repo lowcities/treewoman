@@ -41,6 +41,20 @@ const Auth = ({ clicked, setClicked, setAuthenticated }) => {
     }
 
     useEffect(() => {
+        let interval = null
+        if(timeActive && time !== 0 ){
+          interval = setInterval(() => {
+            setTime((time) => time - 1)
+          }, 1000)
+        }else if(time === 0){
+          setTimeActive(false)
+          setTime(60)
+          clearInterval(interval)
+        }
+        return () => clearInterval(interval);
+      }, [timeActive, time]);
+
+    useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if(user) {
               let MFUser = multiFactor(auth.currentUser);
@@ -243,7 +257,9 @@ const Auth = ({ clicked, setClicked, setAuthenticated }) => {
     
     const resendEmail = async () => {
         try {
+            setReqEmail(true);
             setButtonDisabled(true);
+            setEmailVerif(true);
             const actionCodeSettings = {
                 url: 'https://treewoman.net/?uid=' + auth.currentUser.email,
                 handleCodeInApp: true,
@@ -323,10 +339,12 @@ const Auth = ({ clicked, setClicked, setAuthenticated }) => {
                             </div>}
                             { !emailVerif && 
                             <div className="group">
-                                <label htmlFor="reqEmailLink" className="label" style={{textAlign: "center"}}>Your email is unverified</label>
-                                <button id="reqEmail" className="button" style={{background: timeActive ? 'red' : '#1161ee'}} onClick={resendEmail} disabled={timeActive}>Send Email Link {timeActive && time}</button>
+                                <label htmlFor="reqEmailLink" className="label" style={{textAlign: "center", color: "red", fontWeight: "bold"}}>Your email is unverified</label>
+                                <button id="reqEmail" className="button" style={{opacity: timeActive ? 0 : 1 }} onClick={resendEmail} disabled={timeActive}>Send Email Link</button>
                                 <button className="button" onClick={logout}>Logout session</button>
+                                
                             </div>}
+                            
                             {!MFAEnrolled &&  
                                 <div className="group">
                                     <hr className="login-divider"></hr>
@@ -339,9 +357,9 @@ const Auth = ({ clicked, setClicked, setAuthenticated }) => {
                                                 <label htmlFor="OTP" className="label">Passcode</label>
                                                 <input id="OTP" type="number" value={OTP} className="input" placeholder="Passcode..." onChange={OTPAuth}/>
                                             </div> 
-                                            : <button className="button" style={{background: timeActive ? 'red' : '#1161ee'}} onClick={createMFA} disabled={timeActive}>Request Passcode {timeActive && time}</button>}
-                                            {error && <div><span className="error-msg" style={{color: 'red'}}>{error.code}</span>
-                                                <button className="button" style={{marginTop: "15px"}} onClick={createMFA}>RESEND PASSCODE</button></div>}  
+                                            : <button className="button" onClick={createMFA} disabled={timeActive} >Request Passcode</button>}
+                                            {error && <div><span className="error-msg">{error.code}</span>
+                                                <button className="button" style={{marginTop: "15px", opacity: timeActive ? 0 : 1 }} onClick={createMFA}>RESEND PASSCODE</button></div>}  
                                                 <button className="button" onClick={logout}>Logout session</button>
                                                   
                                             </div>
