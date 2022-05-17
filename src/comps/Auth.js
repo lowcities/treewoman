@@ -109,6 +109,11 @@ const Auth = ({ clicked, setClicked, setAuthenticated }) => {
     const validatePassword = () => {
         console.log('passCheck1');
         let isValid = true;
+        if(!userName) {
+            setError('Please enter a user name.');
+            alert('Please enter a User Name.');
+            return isValid = false;
+        }
         if (registerPassword !== confirmPassword) {
             setError('Passwords does not match');
             alert("Passwords do not match");
@@ -392,7 +397,14 @@ const Auth = ({ clicked, setClicked, setAuthenticated }) => {
                                 <input id="confirmPass" type="password" className="input" data-type="password" placeholder="Confirm Password..." style={fieldStyle} onChange={(e) => setConfirmPassword(e.target.value)}/>
                             </div>
                         { !reqEmail && <div className="group">
-                                <button id="reqEmail" className="button" onClick={register}>Request Email Link</button>
+                                <button id="reqEmail" className="button" onClick={register}>Sign Up</button>
+                                <div className="legal">
+                                    By signing up, you agree to our
+                                    <a href="terms.html">&nbsp;Terms</a>,
+                                    <a href="privacy.html">&nbsp;Privacy Policy</a> and
+                                    <a href="cookies.html">&nbsp;Cookies Policy</a>
+                                </div>
+                                    
                             </div>}
                             { reqEmail && 
                             <div className="group">
