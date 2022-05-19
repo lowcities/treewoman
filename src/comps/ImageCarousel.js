@@ -80,8 +80,8 @@ const ImageCarousel = ({ setSelectedImg, setCaption }) => {
          >
             
             <div className="autoplay-switch">
+            <label htmlFor="slideshow" className="play-label"></label>
                 <input className="autoplay" id="slideshow" type="checkbox" onChange={changeHandler} />
-                <label htmlFor="slideshow" className="play-label"></label>
             </div>
             
             <div className="photo-box">
