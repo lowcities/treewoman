@@ -78,7 +78,11 @@ const ImageCarousel = ({ setSelectedImg, setCaption }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
          >
-            
+            {autoPlayOn && <motion.div className='autoplay-notification'
+                initial={{ scale: 0, y: "-100vh" }}
+                animate= {{ scale: 1, y: "0" }}
+                transition={{ delay: .5, type: "spring",stiffness: 100, damping: 20  }}
+            >AutoPlay On</motion.div>}
             <div className="autoplay-switch">
             <label htmlFor="slideshow" className="play-label"></label>
                 <input className="autoplay" id="slideshow" type="checkbox" onChange={changeHandler} />

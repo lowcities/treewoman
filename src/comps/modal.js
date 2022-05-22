@@ -40,7 +40,7 @@ const Modal = ({ selectedImg, setSelectedImg, caption, year, imgID, authenticate
             { authenticated && <span className='caption-btn' onClick={(e) => addCaption ? setAddCaption(false) : setAddCaption(true)}>ADD COMMENT</span>}
             { addCaption && <AddComment selectedImg={selectedImg} setAddCaption={setAddCaption}/>}
             <div className="caption-switch-container">
-                <label htmlFor="captionBtn" className="caption-switch-label">COMMENTS</label>
+                <label htmlFor="captionBtn" className="caption-switch-label"></label>
                 <input className="caption-switch" id="captionBtn" type="checkbox" onChange={showComment} />
             </div>
             <div className='container'>

@@ -12,6 +12,9 @@ import { onAuthStateChanged, multiFactor, signOut } from 'firebase/auth';
 import { auth } from './firebase/config';
 import { motion } from 'framer-motion';
 
+
+
+
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [clicked, setClicked ] = useState(false);

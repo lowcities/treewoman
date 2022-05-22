@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, 
     onAuthStateChanged, RecaptchaVerifier, multiFactor, sendEmailVerification, 
-    PhoneAuthProvider, getMultiFactorResolver, PhoneMultiFactorGenerator, sendPasswordResetEmail, linkWithCredential, signOut } from 'firebase/auth';
+    PhoneAuthProvider, getMultiFactorResolver, PhoneMultiFactorGenerator, sendPasswordResetEmail, signOut } from 'firebase/auth';
 import { auth } from '../firebase/config';
-import { async } from "@firebase/util";
+
 
 const Auth = ({ clicked, setClicked, setAuthenticated }) => {
     const countryCode = '+1';
@@ -28,6 +28,11 @@ const Auth = ({ clicked, setClicked, setAuthenticated }) => {
     const [ validField, setValidField ] = useState(true);
     const [ verificationId, setVerificationId ] = useState('');
     const [ showResetForm, setShowResetForm ] = useState(false);
+    // const NUMBER = process.env.REACT_APP_NUMBER;
+    const NUMBER2 = process.env.REACT_APP_NUMBER_2;
+    const NUMBER3 = process.env.REACT_APP_NUMBER_3;
+    const NUMBER4 = process.env.REACT_APP_NUMBER_4;
+    const numArray = [NUMBER2, NUMBER3, NUMBER4];
 
     let fieldStyle;
     if(!validField) {
@@ -156,11 +161,14 @@ const Auth = ({ clicked, setClicked, setAuthenticated }) => {
 //SET UP MULTIFACTOR ENROLLMENT FOR NEW USER BY SENDING SMS TO PHONE//////////////////////
     const createMFA = () => {
         setOtpField(true);
+        
         if(auth.currentUser.emailVerified) {
-            // if(userPhone === '+13333333333') {
-            //     console.log("Access Denied");
-            //     logout();
-            // };
+            for(let i = 0; i <= numArray.length; i++) {
+                if(userPhone === numArray[i]) {
+                    console.log("Access Denied");
+                    logout();
+                }
+            };
             const provider = new PhoneAuthProvider(auth);
             multiFactor(auth.currentUser).getSession()
                 .then((multiFactorSession) => {
