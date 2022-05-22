@@ -868,7 +868,7 @@ input:checked + .toy-toggle .handle-on {
 }
 .autoplay:checked,
 .caption-switch:checked {
-  background: linear-gradient(-10deg, #70a1ff 70%, #3b697f 90%);
+  background: linear-gradient(-10deg,var(--on) 70%, var(--on) 90%);
 }
 .autoplay::before {
   background: url('./img/playpause.svg')  center no-repeat,
@@ -1215,8 +1215,8 @@ input:checked + .toy-toggle .handle-on {
     grid-gap: 40px;
   }
   .desc-form {
-    /* width: 50%; */
-    min-width: 435px;
+    width: 50%;
+    max-width: 435px;
   }
   .backdrop img {
     /* width: 60%; */
