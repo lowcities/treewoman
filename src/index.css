@@ -867,25 +867,28 @@ input:checked + .toy-toggle .handle-on {
 *********** Styles ********************************
 ******************************************/
 
-.right-arrow,
-.left-arrow {
+.arrow {
   background: url('./img/arrow.svg') center/contain  no-repeat;
   /* background-size: contain; */
   cursor: pointer;
   /* position: absolute; */
   bottom: 0;
-  width: 5%;
-  padding: 2rem;
+  width: 90px;
+  height: 90px;
+  /* padding: 2rem; */
   z-index: 9;
 }
 .left-arrow {
   transform: rotate(180deg);
-            /* All browsers support */
             -moz-transform: rotate(180deg);
             -webkit-transform: rotate(180deg);
             -o-transform: rotate(180deg);
             -ms-transform: rotate(180deg);
-            border-radius: 100px;          
+                
+}
+.arrow:hover,
+.arrow:active {
+  background: url('./img/arrow-filled.svg') center/contain no-repeat;
 }
 .carousel-container {
   background: rgba(0,0,0,.9);

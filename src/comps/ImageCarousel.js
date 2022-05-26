@@ -97,8 +97,8 @@ const ImageCarousel = ({ setSelectedImg, setCaption }) => {
                     </div>
                     
                 ))}
-                <span className="left-arrow" onClick={previousPhoto}></span>
-            <span className="right-arrow" onClick={nextPhoto}></span>
+                <span className="arrow left-arrow" onClick={previousPhoto}></span>
+            <span className=" arrow right-arrow" onClick={nextPhoto}></span>
             </div>
             
             
